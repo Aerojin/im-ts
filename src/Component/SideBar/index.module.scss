@@ -1,0 +1,63 @@
+.app {
+  width: 300px;
+  height: 100%;
+  position: relative;
+  text-align: left;
+
+  .divider {
+    margin: 10px 0px;
+  }
+
+  .im-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #86909c;
+    cursor: pointer;
+  }
+
+  .problem {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+  
+    li {
+      margin: 0px;
+      padding-left: 15px;
+      line-height: 28px;
+    }
+  
+    .title {
+      font-size: 15px;
+      color: #1d2129;
+      font-weight: bolder;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.company-info {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  display: flex;
+  flex-flow: column;
+  line-height: 25px;
+  margin-top: 25px;
+  color: #86909c;
+
+  .company-name {
+    font-size: 15px;
+    font-weight: bolder;
+    color: #1d2129;
+    margin-left: 10px;
+    line-height: 20px;
+  }
+}
+
+
+
+.mt10 {
+  margin-top: 10px;
+}
