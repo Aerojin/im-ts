@@ -6,12 +6,12 @@ import Footer from "../Footer";
 import SideBar from "../SideBar";
 import styles from "./index.module.scss";
 
-const Chat: React.FC = () => {
+const Chat: React.FC<any> = (props: any) => {
   return (
     <Flex gap={0} className={styles.layout} vertical={false} >
       <Flex vertical className={styles.body}>
         <Header />
-        <Content />
+        <Content {...props} />
         <Footer />
       </Flex>
       <Flex vertical className={styles.sidebar}>

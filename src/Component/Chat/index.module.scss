@@ -1,5 +1,5 @@
 .layout{
-    width: 800px;
+    width: 900px;
     height: 600px;
     border-radius: 0px;
     border: solid 1px #eee;
@@ -8,8 +8,9 @@
 }
 
 .body{
-    width: 500px;
+    width: auto;
     height: 100%;
+    flex: 1;
     background: #f2f3f5;
 
 }
