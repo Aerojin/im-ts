@@ -4,6 +4,7 @@ import React, { Component } from "react";
 // import ScrollWrapper from "../ScrollWrapper";
 import classNames from "classnames";
 import MessageText from "../Message/Text";
+import MessageImage from "../Message/Image";
 // import { messageList, my } from "./data";
 import { ConversationContext } from "../../Interface/Conversation";
 import { MessageContentTypeConst } from "../../Utils/Constant";
@@ -46,7 +47,11 @@ const Content: React.FC<any> = (props = {}) => {
                 msg.locateRemind ? "wk-message-item-reminder" : undefined
               )}
             >
-              <MessageText message={msg} context={context} />
+              {MessageContentTypeConst.image === msg.contentType ? (
+                <MessageImage message={msg} context={context} />
+              ) : (
+                <MessageText message={msg} context={context} />
+              )}
             </div>
           );
         })}
