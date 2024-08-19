@@ -3,7 +3,7 @@ import { notification } from "antd";
 import clazz from "classnames";
 import hotkeys from "hotkeys-js";
 import { MentionsInput, Mention, SuggestionDataItem } from "react-mentions";
-import { Subscriber } from "wukongimjssdk";
+import { Subscriber, MessageText } from "wukongimjssdk";
 import { ConversationContext } from "../../Interface/Conversation";
 import {
   MessageInputContext,

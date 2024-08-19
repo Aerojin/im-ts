@@ -2,7 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
 import App from './App';
+import WKApp from './Service/WkApp';
 import reportWebVitals from './reportWebVitals';
+
+const apiURL = "https://api.botgate.cn/v1/";
+
+WKApp.apiClient.config.apiURL = apiURL;
+WKApp.apiClient.config.tokenCallback = () => {
+  return WKApp.loginInfo.token;
+};
+WKApp.loginInfo.load(); // 加载登录信息
+WKApp.shared.startup(); // app启动
+
+const windowAny = window as any;
+windowAny.WkApp = WKApp;
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

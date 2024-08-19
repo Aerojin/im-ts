@@ -1,29 +1,66 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 // import { Row, Col, Image, Divider } from "antd";
-// import ChatRecordList from "../ChatRecordList";
-// import ScrollWrapper from "../ScrollWrapper";
 import classNames from "classnames";
+import {
+  PullMode,
+  WKSDK,
+  Channel,
+  MessageContent,
+  Setting,
+} from "wukongimjssdk";
 import MessageText from "../Message/Text";
 import MessageImage from "../Message/Image";
 // import { messageList, my } from "./data";
 import { ConversationContext } from "../../Interface/Conversation";
 import { MessageContentTypeConst } from "../../Utils/Constant";
 import styles from "./index.module.scss";
+import message from "./mock";
 
+let scrollTimer: any = 0;
 const context: any = {};
 const Content: React.FC<any> = (props = {}) => {
-  const { message } = props;
-  //   const p = {
-  //     data: messageList,
-  //     me: my,
-  //     style: { height: 360, width: 500 },
-  //   };
+  const { message, loadData } = props;
+  const [loading, setLoading] = useState(false);
 
-  console.log(222, message);
+  // https://api.botgate.cn/v1/message/channel/sync
+  // https://api.botgate.cn/v1/message/channel/sync
+
+ 
+
+  const handleScrollEnd = (e: any) => {
+    console.log("---handleScrollEnd---");
+    const msg = message[0];
+    const current = msg?.message;
+    const targetScrollTop = e.target.scrollTop;
+    const scrollOffsetTop =
+      e.target.scrollHeight - (targetScrollTop + e.target.clientHeight);
+    if (targetScrollTop <= 100 && !loading && current.messageSeq) {
+      // 下拉
+
+      console.log(1111, msg, current.messageSeq);
+
+      setLoading(true);
+      loadData(PullMode.Down, current.messageSeq - 1).then((res: any) => {
+        console.log(888, res);
+        setLoading(false);
+      });
+      console.log("下拉加载....");
+    } else if (scrollOffsetTop <= 500 && !loading) {
+      // 上拉
+      console.log("上拉加载....");
+    }
+  };
+
+  const handleScroll = (e: any) => {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      handleScrollEnd(e);
+    }, 500);
+  };
 
   return (
     <div className={styles.app}>
-      <div className={styles.message}>
+      <div className={styles.message} onScroll={handleScroll}>
         {message.map((msg: any, i: any) => {
           let last = false;
 
@@ -55,10 +92,6 @@ const Content: React.FC<any> = (props = {}) => {
             </div>
           );
         })}
-        {/* <MessageText /> */}
-        {/* <ScrollWrapper {...p}>
-        <ChatRecordList {...p} />
-    </ScrollWrapper> */}
       </div>
     </div>
   );

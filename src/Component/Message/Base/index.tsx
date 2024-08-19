@@ -80,8 +80,6 @@ export default class MessageBase extends Component<MessageBaseProps, any> {
 
     const messageStyle = this.getMessageStyle(message)
 
-    console.log(111, message.send);
-
     return (
       <div
         className={classNames(

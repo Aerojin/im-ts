@@ -4,13 +4,15 @@ import MessageInput from "../MessageInput";
 import ToolBar from "../ToolBar";
 import styles from "./index.module.scss";
 
-const Footer: React.FC = () => {
+const Footer: React.FC<any> = (props: any) => {
   const messageContext = useRef();
+  const { onSend } = props;
 
   return (
     <div className={styles.app}>
       <ToolBar messageContext={messageContext} />
       <MessageInput
+        onSend={onSend}
         onContext={(ctx: any) => {
           messageContext.current = ctx;
         }}
