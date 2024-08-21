@@ -2,8 +2,6 @@ import WKApp from "./WkApp";
 import StorageService from "./StorageService"
 import SensitiveWordTool from 'sensitive-word-tool'
 
-// console.log(333, SensitiveWordTool);
-
 export class ProhibitwordsService {
 
     private sensitiveWordTool = new SensitiveWordTool({

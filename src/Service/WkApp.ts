@@ -270,8 +270,6 @@ export default class WKApp extends ProviderListener {
   }
 
   connectIM() {
-    console.log(111, WKApp.loginInfo.uid, WKApp.loginInfo.token);
-
     WKSDK.shared().config.uid = WKApp.loginInfo.uid;
     WKSDK.shared().config.token = WKApp.loginInfo.token;
     // WKSDK.shared().connect();

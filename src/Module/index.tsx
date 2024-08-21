@@ -3,6 +3,7 @@ import {
   WKSDK,
   Channel,
   Message,
+  MessageTask,
   Subscriber,
   Conversation,
 } from "wukongimjssdk";
@@ -10,7 +11,7 @@ import React, { ElementType } from "react";
 import { Howl } from "howler";
 import WKApp from "../Service/WkApp";
 import EmojiToolbar from "../Component/EmojiToolbar";
-import ImageToolbar from '../Component/ImageToolbar'; 
+import ImageToolbar from "../Component/ImageToolbar";
 import { GifCell, GifContent } from "../Component/Message/Gif";
 import {
   HistorySplitCell,
@@ -41,6 +42,7 @@ import MergeforwardContent, {
 } from "../Component/Message/Mergeforward";
 import APIClient from "../Service/APIClient";
 import { Convert } from "../Utils/convert";
+import { MediaMessageUploadTask } from "./task";
 
 export default class BaseModule implements IModule {
   messageTone?: Howl;
@@ -139,6 +141,8 @@ export default class BaseModule implements IModule {
     this.setSyncConversationsCallback();
     this.setSyncSubscribersCallback();
     this.setMessageReadedCallback();
+    this.setMessageUploadTaskCallback(); // 消息上传任务
+    this.setSyncMessageExtraCallback(); // 消息扩展
   }
 
   registerChatToolbars() {
@@ -256,6 +260,15 @@ export default class BaseModule implements IModule {
     };
   }
 
+  setMessageUploadTaskCallback() {
+    // 消息上传任务
+    WKSDK.shared().config.provider.messageUploadTaskCallback = (
+      message: Message
+    ): MessageTask => {
+      return new MediaMessageUploadTask(message);
+    };
+  }
+
   setMessageReadedCallback() {
     WKSDK.shared().config.provider.messageReadedCallback = async (
       channel: Channel,
@@ -276,6 +289,20 @@ export default class BaseModule implements IModule {
         .catch((err) => {
           console.log("消息已读未读上报失败！", err);
         });
+    };
+  }
+
+  setSyncMessageExtraCallback() {
+    WKSDK.shared().config.provider.syncMessageExtraCallback = async (
+      channel: Channel,
+      extraVersion: number,
+      limit: number
+    ) => {
+      return WKApp.conversationProvider.syncMessageExtras(
+        channel,
+        extraVersion,
+        limit
+      );
     };
   }
 }

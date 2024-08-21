@@ -13,7 +13,7 @@ import {
   MessageText,
 } from "wukongimjssdk";
 import React, { Component, HTMLProps } from "react";
-import { Spin } from "antd";
+import { Spin, message } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 
 import Provider from "../../Service/Provider";
@@ -549,10 +549,6 @@ export class Conversation
         create={() => {
           this.vm = new ConversationVM(channel);
 
-          const _win = window as any;
-
-          _win.vm = this.vm;
-
           return this.vm;
         }}
         render={(vm: ConversationVM) => {
@@ -657,28 +653,28 @@ export class Conversation
                       vm.unCheckAllMessages();
                     }}
                     onForward={() => {
-                      // WKApp.shared.baseContext.showConversationSelect((channels: Channel[]) => {
-                      //     const messages = vm.getCheckedMessages()
-                      //     if (!messages || messages.length === 0) {
-                      //         Toast.error("请先选择消息！")
-                      //         return
-                      //     }
-                      //     for (const message of messages) {
-                      //         let cloneContent = message.content // TODO:这里理论上需要clone一份 但是不clone也没发现问题
-                      //         for (const channel of channels) {
-                      //             this.sendMessage(cloneContent, channel)
-                      //         }
-                      //     }
-                      //     vm.editOn = false
-                      //     vm.unCheckAllMessages()
-                      // })
+                      WKApp.shared.baseContext.showConversationSelect((channels: Channel[]) => {
+                          const messages = vm.getCheckedMessages()
+                          if (!messages || messages.length === 0) {
+                              message.error("请先选择消息！")
+                              return
+                          }
+                          for (const message of messages) {
+                              let cloneContent = message.content // TODO:这里理论上需要clone一份 但是不clone也没发现问题
+                              for (const channel of channels) {
+                                  this.sendMessage(cloneContent, channel)
+                              }
+                          }
+                          vm.editOn = false
+                          vm.unCheckAllMessages()
+                      })
                     }}
                     onMergeForward={() => {
-                      // WKApp.shared.baseContext.showConversationSelect((channels: Channel[]) => {
-                      //     vm.sendMergeforward(channels)
-                      //     vm.editOn = false
-                      //     vm.unCheckAllMessages()
-                      // })
+                      WKApp.shared.baseContext.showConversationSelect((channels: Channel[]) => {
+                          vm.sendMergeforward(channels)
+                          vm.editOn = false
+                          vm.unCheckAllMessages()
+                      })
                     }}
                     onDelete={async () => {
                       const checkedMessagewraps = vm.getCheckedMessages();

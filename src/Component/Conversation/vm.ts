@@ -354,8 +354,6 @@ export default class ConversationVM extends ProviderListener {
             this.channelInfo = WKSDK.shared().channelManager.getChannelInfo(
               this.channel
             );
-
-            console.log(7777888, this.channelInfo);
             this.loadChannelInfoFinished();
           });
       }
