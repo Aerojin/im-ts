@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Button } from "antd";
-import MessageInput from "../MessageInput";
+import MessageInput from "../MessageInput1";
 import ToolBar from "../ToolBar";
 import styles from "./index.module.scss";
 

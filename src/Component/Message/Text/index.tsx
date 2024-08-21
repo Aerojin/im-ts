@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-// import WKSDK from "wukongimjssdk";
 import classNames from "classnames";
-import MessageBase from "../Base";
-import MessageTrail from "../Base/tail";
+import React from "react";
+import WKApp from "../../../Service/WkApp";
 import { Part, PartType } from "../../../Service/Model";
+import MessageBase from "../Base";
+// import MessageHead from "../Base/head";
+import MessageTrail from "../Base/tail";
 import { MessageCell } from "../MessageCell";
+import "./index.css";
 
-// import styles from "./index.module.scss";
-import './index.css';
-
-class TextCell extends MessageCell {
+// 文本消息
+export default class TextCell extends MessageCell {
   constructor(props: any) {
     super(props);
   }
@@ -17,7 +17,6 @@ class TextCell extends MessageCell {
   getCommonText(k: number, part: Part) {
     const texts = part.text.split("\n");
     const { message } = this.props;
-
     return (
       <span
         key={`${message.clientMsgNo}-text-${k}`}
@@ -44,7 +43,7 @@ class TextCell extends MessageCell {
       <span
         onClick={() => {
           if (part.data?.uid) {
-            // context.showUser(part.data?.uid);
+            context.showUser(part.data?.uid);
           }
         }}
         key={`${message.clientMsgNo}-mention-${k}`}
@@ -60,8 +59,7 @@ class TextCell extends MessageCell {
 
   getEmojiText(k: number, part: Part) {
     const { message } = this.props;
-    // const emojiURL = WKApp.emojiService.getImage(part.text)
-    const emojiURL = "";
+    const emojiURL = WKApp.emojiService.getImage(part.text);
     return (
       <span
         key={`${message.clientMsgNo}-emoji-${k}`}
@@ -105,13 +103,15 @@ class TextCell extends MessageCell {
         i++;
       }
     }
+
     return elements;
   }
 
   render() {
     const { message, context } = this.props;
     return (
-      <MessageBase message={message} context={context} hiddeBubble={false} onBubble={() => {}}>
+      <MessageBase message={message} context={context} onBubble={() => {}}>
+        {/* <MessageHead message={message} /> */}
         {message?.content.reply ? (
           <div
             className={classNames(
@@ -119,14 +119,14 @@ class TextCell extends MessageCell {
               message.send ? undefined : "wk-message-text-reply-recv"
             )}
             onClick={() => {
-            //   context.locateMessage(message?.content.reply.messageSeq);
+              context.locateMessage(message?.content.reply.messageSeq);
             }}
           >
             <div className="wk-message-text-reply-author">
               <div className="wk-message-text-reply-authoravatar">
                 <img
                   alt=""
-                  src="https://game.gtimg.cn/images/lol/act/a20201103lmpwjl/icon-ht.png"
+                  src={WKApp.shared.avatarUser(message.content.reply.fromUID)}
                   style={{ width: "12px", height: "12px", borderRadius: "50%" }}
                 />
               </div>
@@ -139,6 +139,7 @@ class TextCell extends MessageCell {
             </div>
           </div>
         ) : undefined}
+
         <p className="wk-message-text-content">
           {this.getRenderMessageText()}
           <MessageTrail message={message} />
@@ -147,5 +148,3 @@ class TextCell extends MessageCell {
     );
   }
 }
-
-export default TextCell;

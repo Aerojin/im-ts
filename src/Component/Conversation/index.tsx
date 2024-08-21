@@ -259,6 +259,7 @@ export class Conversation
     // }
 
     MessageCell = WKApp.messageManager.getCell(message.contentType);
+
     return (
       <div
         onAnimationEnd={() => {
@@ -513,7 +514,7 @@ export class Conversation
   }
 
   chatToolbarUI() {
-    const toolbars: any = []; // WKApp.endpoints.chatToolbars(this)
+    const toolbars = WKApp.endpoints.chatToolbars(this)
     return (
       <ul className="wk-conversation-chattoolbars">
         {toolbars.map((t: any, i: any) => {
@@ -542,13 +543,15 @@ export class Conversation
     const { chatBg, channel } = this.props;
 
     const channelInfo = WKSDK.shared().channelManager.getChannelInfo(channel);
-
-    // console.log('333', channelInfo);
-
+    
     return (
       <Provider
         create={() => {
           this.vm = new ConversationVM(channel);
+
+          const _win = window as any;
+
+          _win.vm = this.vm;
 
           return this.vm;
         }}

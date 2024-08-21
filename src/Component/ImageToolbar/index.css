@@ -56,7 +56,7 @@
     width: 420px;
     position: relative;
     padding: 28px;
-    background: white;
+    background: var(--wk-color-item);
     -webkit-box-shadow: 0 2px 8px 0 rgba(0,0,0,.2);
     box-shadow: 0 2px 8px 0 rgba(0,0,0,.2);
     border-radius: 4px;
@@ -81,7 +81,7 @@
 }
 
 .wk-imagedialog-content-close svg {
-    fill: rgba(9,30,66,.87);
+    fill: var(--wk-text-item);
 }
 
 .wk-imagedialog-content-title {
@@ -151,7 +151,7 @@
 }
 
 body[theme-mode=dark] .wk-imagedialog-content-preview--filecontent {
-    background-color: rgba(246, 246, 246);
+    background-color: var(--wk-color-secondary);
 }
 
 .wk-imagedialog-content-preview-file-icon {
@@ -169,7 +169,7 @@ body[theme-mode=dark] .wk-imagedialog-content-preview--filecontent {
 }
 
 .wk-imagedialog-content-preview--filecontent-name {
-    color: rgba(9,30,66,.87);
+    color: var(--wk-text-item);
     white-space: nowrap;
     overflow-x: hidden;
     -o-text-overflow: ellipsis;
@@ -179,7 +179,7 @@ body[theme-mode=dark] .wk-imagedialog-content-preview--filecontent {
 
 .wk-imagedialog-content-preview--filecontent-size {
     font-size: 12px;
-    color:  rgb(170,170,170);
+    color: var(--wk-color-font-tip);
 }
 
 .wk-imagedialog-footer {

@@ -1,13 +1,13 @@
 import WKApp from "./WkApp";
 import StorageService from "./StorageService"
-// import SensitiveWordTool from 'sensitive-word-tool'
+import SensitiveWordTool from 'sensitive-word-tool'
 
 // console.log(333, SensitiveWordTool);
 
 export class ProhibitwordsService {
 
-    // private sensitiveWordTool = new SensitiveWordTool({
-    // })
+    private sensitiveWordTool = new SensitiveWordTool({
+    })
 
     private constructor() {
     }
@@ -49,13 +49,12 @@ export class ProhibitwordsService {
         StorageService.shared.setItem("prohibitwords", JSON.stringify(this.prohibitwords))
     }
     refresh() {
-        // const words = this.prohibitwords.map((item) => {
-        //     return item.content
-        // })
-        // this.sensitiveWordTool.addWords(words)
+        const words = this.prohibitwords.map((item) => {
+            return item.content
+        })
+        this.sensitiveWordTool.addWords(words)
     }
     filter(v:string) {
-        // return this.sensitiveWordTool.filter(v)
-        return '';
+        return this.sensitiveWordTool.filter(v)
     }
 }

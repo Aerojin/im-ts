@@ -43,6 +43,12 @@ export class EndpointID {
   static emojiService = "emojiService"; // emoji服务
 }
 
+export class GroupRole {
+  static normal: number = 0 // 普通
+  static owner: number = 1 // 群主
+  static manager: number = 2 // 管理员
+}
+
 export const OrderFactor = 10000; // 排序因子
 
 
@@ -81,3 +87,22 @@ reasonQueryTokenError,
 reasonSystemError,
 // ReasonError
 }
+
+export class EndpointCategory {
+  static  routes = "routes"; // 路由
+  static  menus = "menus"; // 菜单
+  static channelSetting = "channelSetting" // 频道设置
+  static userInfo = "userInfo" // 用户信息
+  static channelManage= "channelManage" // 频道管理
+  static contactsHeader = "contactsHeader"
+  static messageContextMenus = "messageContextMenus" // 消息上下文菜单
+  static friendApplyDataChange:string = "friendApplyDataChange" // 好友申请数据改变
+  static chatMenusPopover:string = "chatMenusPopover" // 聊天菜单气泡
+  static chatToolbars = "chatToolbars" // 聊天工具栏
+  static channelHeaderRightItems = "channelHeaderRightItems" // 频道头部右侧items
+  static organizational = "organizational" // 组织架构
+  static organizationalLayer = "organizationalLayer" // 组织架构弹框
+}
+
+
+export const SuperGroup = 1 // 超级群

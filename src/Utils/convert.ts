@@ -87,6 +87,7 @@ export class Convert {
         if (contentObj) {
             messageContent.decode(this.stringToUint8Array(JSON.stringify(contentObj)))
         }
+
         message.content = messageContent
 
         message.isDeleted = msgMap["is_deleted"] === 1

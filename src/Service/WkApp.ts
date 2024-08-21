@@ -7,7 +7,6 @@ import {
   Message,
   ConnectStatus,
   ConnectAddrCallback,
-  MessageContentType,
 } from "wukongimjssdk";
 import APIClient from "./APIClient";
 import { ProviderListener } from "./Provider";
@@ -15,9 +14,16 @@ import StorageService from "./StorageService";
 import { DefaultEmojiService, EmojiService } from "./EmojiService";
 import { DataSource } from "./DataSource/DataSource";
 import { IConversationProvider } from "./DataSource/DataProvider";
-import MessageManager from './MessageManager';
-import { ChannelDataSource, CommonDataSource, ConversationProvider } from "./DataSource";
+import MessageManager from "./MessageManager";
+import { EndpointCommon } from "./EndpointCommon";
+import {
+  ChannelDataSource,
+  CommonDataSource,
+  ConversationProvider,
+} from "./DataSource";
+import { EndpointManager } from './Module';
 import { WKBaseContext } from "../Component/WKBase";
+import Module from "../Module";
 
 export class WKConfig {
   appName: string = "唐僧叨叨";
@@ -182,10 +188,12 @@ export default class WKApp extends ProviderListener {
   static config: WKConfig = new WKConfig(); // app配置
   static remoteConfig: WKRemoteConfig = new WKRemoteConfig(); // 远程配置
   static loginInfo: LoginInfo = new LoginInfo(); // 登录信息
+  static endpoints: EndpointCommon = new EndpointCommon(); // 常用端点
   static conversationProvider: IConversationProvider; // 最近会话相关数据源
   static messageManager: MessageManager = new MessageManager(); // 消息管理
   static emojiService: EmojiService = DefaultEmojiService.shared; // emoji
   static dataSource: DataSource = new DataSource(); // 数据源
+  static endpointManager: EndpointManager = EndpointManager.shared; // 端点管理
   static mittBus = mitt();
   private messageDeleteListeners: MessageDeleteListener[] =
     new Array<MessageDeleteListener>(); // 消息删除监听
@@ -205,10 +213,7 @@ export default class WKApp extends ProviderListener {
     // 注册模块
     this.registerModule();
 
-    // 用户登录
-    this.login();
-
-    WKApp.loginInfo.load(); // 加载登录信息
+    //  WKApp.loginInfo.load(); // 加载登录信息
 
     WKSDK.shared().config.provider.connectAddrCallback = async (
       callback: ConnectAddrCallback
@@ -216,6 +221,7 @@ export default class WKApp extends ProviderListener {
       if (!this.wsaddrs || this.wsaddrs.length == 0) {
         this.wsaddrs = await WKApp.dataSource.commonDataSource.imConnectAddrs();
       }
+
       if (this.wsaddrs.length > 0) {
         console.log("connectAddrs--->", this.wsaddrs);
         this.addrUsed = true;
@@ -243,6 +249,9 @@ export default class WKApp extends ProviderListener {
       }
     );
 
+    // 用户登录
+    this.login();
+
     // 通知设置
     const notificationIsClose = StorageService.shared.getItem(
       "NotificationIsClose"
@@ -261,9 +270,14 @@ export default class WKApp extends ProviderListener {
   }
 
   connectIM() {
+    console.log(111, WKApp.loginInfo.uid, WKApp.loginInfo.token);
+
     WKSDK.shared().config.uid = WKApp.loginInfo.uid;
     WKSDK.shared().config.token = WKApp.loginInfo.token;
-    WKSDK.shared().connect();
+    // WKSDK.shared().connect();
+    WKSDK.shared().connectManager.connect();
+
+    WKSDK.shared().config.provider.syncConversationsCallback();
   }
 
   registerModule() {
@@ -272,8 +286,12 @@ export default class WKApp extends ProviderListener {
     WKApp.dataSource.channelDataSource = new ChannelDataSource({ WKApp });
     WKApp.dataSource.commonDataSource = new CommonDataSource({ WKApp });
 
-    WKApp.shared.openChannel = new Channel('41fd143a21b94500a66e4e327fb92d7b', 2);
+    WKApp.shared.openChannel = new Channel(
+      "41fd143a21b94500a66e4e327fb92d7b",
+      2
+    );
 
+    new Module().init();
   }
 
   restContent(content: JSX.Element) {
@@ -286,9 +304,11 @@ export default class WKApp extends ProviderListener {
     if (this.isLogined()) {
       console.log("--已经登录，加载登录信息--");
       WKApp.loginInfo.load(); // 加载登录信息
+      this.startMain();
       return;
     }
 
+    const _this = this;
     const username: string = "008615900000002";
     const password: string = "a1234567";
 
@@ -304,6 +324,10 @@ export default class WKApp extends ProviderListener {
         loginInfo.name = data.name;
         loginInfo.sex = data.sex;
         loginInfo.save();
+
+        WKApp.loginInfo.load();
+
+        _this.startMain();
       });
   }
 

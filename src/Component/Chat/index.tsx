@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Flex } from "antd";
 import {
   WKSDK,
@@ -13,10 +13,17 @@ import Header from "../Header";
 import Content from "../Content";
 import Footer from "../Footer";
 import SideBar from "../SideBar";
-import { MentionModel } from "../MessageInput";
+import { Conversation } from '../Conversation';
+import { MentionModel } from "../MessageInput1";
 import styles from "./index.module.scss";
 
 const Chat: React.FC<any> = (props: any) => {
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    setTimeout(() => { setLoading(false); }, 1500);
+  }, []);
   const onSend = (text: string, mention?: MentionModel) => {
     const content = new MessageText(text);
 
@@ -45,12 +52,17 @@ const Chat: React.FC<any> = (props: any) => {
     return message;
   };
 
+  if(loading) {
+    return null;
+  }
+
   return (
     <Flex gap={0} className={styles.layout} vertical={false}>
       <Flex vertical className={styles.body}>
         <Header />
-        <Content {...props} channel={WKApp.shared.openChannel} />
-        <Footer onSend={onSend} />
+        <Conversation channel={new Channel('cd54cf2fa8274ade902f381d0800f3a6', 2)} chatBg=""  />
+        {/* <Content {...props} channel={WKApp.shared.openChannel} /> */}
+        {/* <Footer onSend={onSend} /> */}
       </Flex>
       <Flex vertical className={styles.sidebar}>
         <SideBar />

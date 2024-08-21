@@ -1,6 +1,7 @@
 import {
   Channel,
   ChannelInfo,
+  Subscriber,
   ConversationExtra,
   Message,
 } from "wukongimjssdk";
@@ -250,6 +251,19 @@ export interface IChannelDataSource {
    * @param uids
    */
   addSubscribers(channel: Channel, uids: string[]): Promise<void>;
+
+  /**
+   * 获取订阅者
+   * @param channel
+   */
+  subscribers(
+    channel: Channel,
+    req: {
+      keyword?: string; // 搜索关键字
+      limit?: number; // 每页数量
+      page?: number; // 页码
+    }
+  ): Promise<Subscriber[]>;
 
   /**
    * 更新频道设置

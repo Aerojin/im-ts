@@ -1,25 +1,16 @@
 import classNames from "classnames";
 import React from "react";
-import { Component } from "react";
-// import { SmileOutlined } from "@ant-design/icons";
-// import { EndpointID } from "../../Constant";
-// import WKApp from "../../App";
-import {
-  Emoji,
-  EmojiService,
-  DefaultEmojiService,
-} from "../../Service/EmojiService";
-// import { Emoji, EmojiService } from "../../Service/EmojiService";
-import { ConversationContext } from "../../Interface/Conversation";
-
+import { Component, ReactNode } from "react";
+import { EndpointID } from "../../Utils/Constant";
+import WKApp from "../../Service/WkApp";
+import { Emoji, EmojiService } from "../../Service/EmojiService";
+import ConversationContext from "../Conversation/context";
+import { LottieSticker } from "../Message/LottieSticker";
 import "./index.css";
-import { LottieSticker } from "../LottieSticker";
 
-// const WKApp = {};
 interface EmojiToolbarProps {
-  conversationContext?: ConversationContext;
-  icon?: string;
-  insertText: Function;
+  conversationContext: ConversationContext;
+  icon: string;
 }
 
 interface EmojiToolbarState {
@@ -41,7 +32,7 @@ export default class EmojiToolbar extends Component<
 
   render() {
     const { show, animationStart } = this.state;
-    const { insertText } = this.props;
+    const { icon, conversationContext } = this.props;
     return (
       <div className="wk-emojitoolbar">
         <div
@@ -53,7 +44,7 @@ export default class EmojiToolbar extends Component<
             });
           }}
         >
-          <img src="./assets/toolbars/func_face_normal.svg" />
+          <img src={icon}></img>
           <div
             onAnimationEnd={() => {
               // this.setState({
@@ -75,7 +66,7 @@ export default class EmojiToolbar extends Component<
             )}
           >
             <EmojiPanel
-              onSticker={(sticker: any) => {
+              onSticker={(sticker) => {
                 this.setState({
                   show: false,
                 });
@@ -84,14 +75,13 @@ export default class EmojiToolbar extends Component<
                 lottieSticker.url = sticker.path;
                 lottieSticker.placeholder = sticker.placeholder;
                 lottieSticker.format = sticker.format;
-                // conversationContext.sendMessage(lottieSticker)
+                conversationContext.sendMessage(lottieSticker);
               }}
               onEmoji={(emoji) => {
                 this.setState({
                   show: false,
                 });
-                insertText(emoji.key);
-                // conversationContext.messageInputContext().insertText(emoji.key)
+                conversationContext.messageInputContext().insertText(emoji.key);
               }}
             ></EmojiPanel>
           </div>
@@ -128,7 +118,7 @@ export class EmojiPanel extends Component<EmojiPanelProps, EmojiPanelState> {
 
   constructor(props: any) {
     super(props);
-    this.emojiService = DefaultEmojiService.shared;
+    this.emojiService = WKApp.endpointManager.invoke(EndpointID.emojiService);
     this.state = {
       emojis: [],
       category: "emoji",
@@ -140,23 +130,23 @@ export class EmojiPanel extends Component<EmojiPanelProps, EmojiPanelState> {
     this.setState({
       emojis: this.emojiService.getAllEmoji(),
     });
-    // this.requestStickerCategory();
+    this.requestStickerCategory();
   }
 
   requestStickerCategory() {
     if (!stickerCategories || stickerCategories.length === 0) {
-      //   WKApp.dataSource.commonDataSource.userStickerCategory().then((result) => {
-      //     stickerCategories = result;
-      //     this.setState({});
-      //   });
+      WKApp.dataSource.commonDataSource.userStickerCategory().then((result) => {
+        stickerCategories = result;
+        this.setState({});
+      });
     }
   }
-  requestStickers(category: any) {
-    // WKApp.dataSource.commonDataSource.getStickers(category).then((result) => {
-    //   this.setState({
-    //     stickers: result.list,
-    //   });
-    // });
+  requestStickers(category: string) {
+    WKApp.dataSource.commonDataSource.getStickers(category).then((result) => {
+      this.setState({
+        stickers: result.list,
+      });
+    });
   }
 
   render(): React.ReactNode {
@@ -184,7 +174,7 @@ export class EmojiPanel extends Component<EmojiPanelProps, EmojiPanelState> {
                       }}
                     >
                       {/* <img src={require(`./emoji/${emoji.image}`)}> </img> */}
-                      <img src={emoji.image} />
+                      <img src={emoji.image}></img>
                     </li>
                   );
                 })
@@ -206,10 +196,10 @@ export class EmojiPanel extends Component<EmojiPanelProps, EmojiPanelState> {
                         style={{ width: "74px", height: "74px" }}
                         autoplay
                         mode="normal"
-                        // src={WKApp.dataSource.commonDataSource.getFileURL(
-                        //   sticker.path
-                        // )}
-                      />
+                        src={WKApp.dataSource.commonDataSource.getFileURL(
+                          sticker.path
+                        )}
+                      ></tgs-player>
                     </li>
                   );
                 })
@@ -229,7 +219,7 @@ export class EmojiPanel extends Component<EmojiPanelProps, EmojiPanelState> {
               this.setState({ category: "emoji" });
             }}
           >
-            <img alt="" src="./assets/toolbars/emoji_tab_icon.png"></img>
+            <img alt="" src={require("./emoji_tab_icon.png")}></img>
           </div>
           {stickerCategories.map((stickerCategory) => {
             return (
@@ -243,16 +233,16 @@ export class EmojiPanel extends Component<EmojiPanelProps, EmojiPanelState> {
                 )}
                 onClick={(e) => {
                   e.stopPropagation();
-                  const category = stickerCategory.category || "";
+                  const category: string = stickerCategory.category || "";
                   this.setState({ category: category });
                   this.requestStickers(category);
                 }}
               >
                 <img
                   alt=""
-                //   src={WKApp.dataSource.commonDataSource.getFileURL(
-                //     stickerCategory.cover
-                //   )}
+                  src={WKApp.dataSource.commonDataSource.getFileURL(
+                    stickerCategory.cover
+                  )}
                 ></img>
               </div>
             );
