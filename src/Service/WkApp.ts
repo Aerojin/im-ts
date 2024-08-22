@@ -16,14 +16,8 @@ import { DataSource } from "./DataSource/DataSource";
 import { IConversationProvider } from "./DataSource/DataProvider";
 import MessageManager from "./MessageManager";
 import { EndpointCommon } from "./EndpointCommon";
-import {
-  ChannelDataSource,
-  CommonDataSource,
-  ConversationProvider,
-} from "./DataSource";
-import { EndpointManager } from './Module';
+import { EndpointManager, ModuleManager, IModule } from './Module';
 import { WKBaseContext } from "../Component/WKBase";
-import Module from "../Module";
 
 export class WKConfig {
   appName: string = "唐僧叨叨";
@@ -210,9 +204,6 @@ export default class WKApp extends ProviderListener {
 
   // app启动
   startup() {
-    // 注册模块
-    this.registerModule();
-
     //  WKApp.loginInfo.load(); // 加载登录信息
 
     WKSDK.shared().config.provider.connectAddrCallback = async (
@@ -265,6 +256,15 @@ export default class WKApp extends ProviderListener {
     WKApp.remoteConfig.startRequestConfig();
   }
 
+  getChannel(): Channel {
+    WKApp.shared.openChannel = new Channel(
+      "41fd143a21b94500a66e4e327fb92d7b",
+      2
+    );
+    
+    return WKApp.shared.openChannel
+  }
+
   startMain() {
     this.connectIM();
   }
@@ -278,18 +278,8 @@ export default class WKApp extends ProviderListener {
     WKSDK.shared().config.provider.syncConversationsCallback();
   }
 
-  registerModule() {
-    WKApp.conversationProvider = new ConversationProvider({ WKApp });
-
-    WKApp.dataSource.channelDataSource = new ChannelDataSource({ WKApp });
-    WKApp.dataSource.commonDataSource = new CommonDataSource({ WKApp });
-
-    WKApp.shared.openChannel = new Channel(
-      "41fd143a21b94500a66e4e327fb92d7b",
-      2
-    );
-
-    new Module().init();
+  registerModule(module: IModule) {
+    ModuleManager.shared.register(module);
   }
 
   restContent(content: JSX.Element) {

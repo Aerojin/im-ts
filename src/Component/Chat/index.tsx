@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Flex } from "antd";
-import { Channel } from "wukongimjssdk";
+import WKApp from "../../Service/WkApp";
 import Header from "../Header";
 import SideBar from "../SideBar";
 import { Conversation } from '../Conversation';
@@ -21,7 +21,7 @@ const Chat: React.FC<any> = (props: any) => {
     <Flex gap={0} className={styles.layout} vertical={false}>
       <Flex vertical className={styles.body}>
         <Header />
-        <Conversation channel={new Channel('cd54cf2fa8274ade902f381d0800f3a6', 2)} chatBg=""  />
+        <Conversation channel={WKApp.shared.getChannel()} chatBg=""  />
       </Flex>
       <Flex vertical className={styles.sidebar}>
         <SideBar />

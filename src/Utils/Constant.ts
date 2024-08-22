@@ -106,3 +106,6 @@ export class EndpointCategory {
 
 
 export const SuperGroup = 1 // 超级群
+
+// 网页端暂不支持的消息
+export const unsupportMessageTypes = []

@@ -25,19 +25,21 @@
 .wk-mergeforwardmessagelist-content-msg {
     display: flex;
     width: 100%;
-    padding: 15px;
+    padding: 10px 15px;
+    box-sizing: border-box;
     background-color: var(--wk-color-item);
 }
 
 .wk-mergeforwardmessagelist-content-msg-info {
     display: flex;
-    width: 100%;
+    width: 430px;
     flex-direction: column;
 }
 
 .wk-mergeforwardmessagelist-content-msg-info-first {
     display: flex;
     width: 100%;
+    box-sizing: border-box;
     justify-content: space-between;
     padding: 0px 15px;
 

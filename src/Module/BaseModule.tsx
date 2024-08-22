@@ -1,14 +1,15 @@
 import {
   MessageContentType,
   WKSDK,
-  Channel,
   Message,
-  MessageTask,
-  Subscriber,
-  Conversation,
+  ChannelInfo,
+  MessageText,
+  ChannelTypePerson,
+  ChannelTypeGroup,
 } from "wukongimjssdk";
 import React, { ElementType } from "react";
 import { Howl } from "howler";
+import { message as Toast } from 'antd';
 import WKApp from "../Service/WkApp";
 import EmojiToolbar from "../Component/EmojiToolbar";
 import ImageToolbar from "../Component/ImageToolbar";
@@ -22,16 +23,18 @@ import { SignalMessageCell } from "../Component/Message/SignalMessage/signalmess
 import { SystemCell } from "../Component/Message/System";
 import TextCell from "../Component/Message/Text";
 import { TimeCell } from "../Component/Message/Time";
-// import { UnknownCell } from "./Messages/Unknown";
-
-// import { UnsupportCell, UnsupportContent } from "./Messages/Unsupport";
+import { UnknownCell } from "../Component/Message/Unknown";
 import {
-  MessageContentTypeConst,
+  UnsupportCell,
+  UnsupportContent,
+} from "../Component/Message/Unsupport";
+import {
   GroupRole,
   EndpointID,
+  unsupportMessageTypes,
+  MessageContentTypeConst,
 } from "../Utils/Constant";
 import { DefaultEmojiService } from "../Service/EmojiService";
-
 import { IModule } from "../Service/Module";
 import {
   LottieSticker,
@@ -41,8 +44,6 @@ import MergeforwardContent, {
   MergeforwardCell,
 } from "../Component/Message/Mergeforward";
 import APIClient from "../Service/APIClient";
-import { Convert } from "../Utils/convert";
-import { MediaMessageUploadTask } from "./task";
 
 export default class BaseModule implements IModule {
   messageTone?: Howl;
@@ -127,22 +128,44 @@ export default class BaseModule implements IModule {
     ); // 合并转发
 
     // 未知消息
-    // WKApp.messageManager.registerCell(
-    //   MessageContentType.unknown,
-    //   (): ElementType => {
-    //     return UnknownCell;
-    //   }
-    // );
+    WKApp.messageManager.registerCell(
+      MessageContentType.unknown,
+      (): ElementType => {
+        return UnknownCell;
+      }
+    );
 
-    WKSDK.shared().chatManager.addCMDListener((message: Message) => {});
+    // 不支持的消息
+    for (const unsupportMessageType of unsupportMessageTypes) {
+      WKSDK.shared().register(
+        unsupportMessageType,
+        () => new UnsupportContent()
+      );
+      WKApp.messageManager.registerCell(
+        unsupportMessageType,
+        (): ElementType => {
+          return UnsupportCell;
+        }
+      );
+    }
+
+    WKSDK.shared().chatManager.addCMDListener((message: Message) => {
+      console.log("收到CMD->", message);
+    });
+
+    WKSDK.shared().channelManager.addListener((channelInfo: ChannelInfo) => {
+      if (channelInfo.channel.channelType === ChannelTypePerson) {
+        if (WKApp.loginInfo.uid === channelInfo.channel.channelID) {
+          WKApp.loginInfo.name = channelInfo.title;
+          WKApp.loginInfo.shortNo = channelInfo.orgData.short_no;
+          WKApp.loginInfo.sex = channelInfo.orgData.sex;
+          WKApp.loginInfo.save();
+        }
+      }
+    });
 
     this.registerChatToolbars(); // 注册聊天工具栏
-
-    this.setSyncConversationsCallback();
-    this.setSyncSubscribersCallback();
-    this.setMessageReadedCallback();
-    this.setMessageUploadTaskCallback(); // 消息上传任务
-    this.setSyncMessageExtraCallback(); // 消息扩展
+    this.registerMessageContextMenus(); // 注册消息上下文菜单
   }
 
   registerChatToolbars() {
@@ -193,116 +216,110 @@ export default class BaseModule implements IModule {
     });
   }
 
-  setSyncSubscribersCallback() {
-    WKSDK.shared().config.provider.syncSubscribersCallback = async function (
-      channel: Channel,
-      version: number
-    ): Promise<Array<Subscriber>> {
-      const resp = await WKApp.apiClient.get(
-        `groups/${channel.channelID}/membersync?version=${version}&limit=10000`
-      );
-      let members = [];
-      if (resp) {
-        for (let i = 0; i < resp.length; i++) {
-          let memberMap = resp[i];
-          let member = new Subscriber();
-          member.uid = memberMap.uid;
-          member.name = memberMap.name;
-          member.remark = memberMap.remark;
-          member.role = memberMap.role;
-          member.version = memberMap.version;
-          member.isDeleted = memberMap.is_deleted;
-          member.status = memberMap.status;
-          member.orgData = memberMap;
-          member.avatar = WKApp.shared.avatarUser(member.uid);
-          members.push(member);
+  registerMessageContextMenus() {
+    WKApp.endpoints.registerMessageContextMenus(
+      "contextmenus.copy",
+      (message) => {
+        if (message.contentType !== MessageContentType.text) {
+          return null;
         }
-      }
-      members.sort((a, b) => {
-        var roleA = a.role === GroupRole.owner ? 999 : a.role;
-        var roleB = b.role === GroupRole.owner ? 999 : b.role;
-        return roleB - roleA;
-      });
-      return members;
-    };
-  }
 
-  setSyncConversationsCallback() {
-    WKSDK.shared().config.provider.syncConversationsCallback = async (
-      filter?: any
-    ): Promise<Array<Conversation>> => {
-      let resp: any;
-      let conversations = new Array<Conversation>();
-      resp = await WKApp.apiClient.post("conversation/sync", { msg_count: 1 });
-      if (resp) {
-        resp.conversations.forEach((conversationMap: any) => {
-          let model = Convert.toConversation(conversationMap);
-          conversations.push(model);
-        });
-        const users = resp.users;
-        if (users && users.length > 0) {
-          for (const user of users) {
-            WKSDK.shared().channelManager.setChannleInfoForCache(
-              Convert.userToChannelInfo(user)
-            );
+        return {
+          title: "复制",
+          onClick: () => {
+            (function (s) {
+              document.oncopy = function (e) {
+                e.clipboardData?.setData("text", s);
+                e.preventDefault();
+                document.oncopy = null;
+              };
+            })((message.content as MessageText).text || "");
+            document.execCommand("Copy");
+          },
+        };
+      },
+      1000
+    );
+
+    WKApp.endpoints.registerMessageContextMenus(
+      "contextmenus.forward",
+      (message, context) => {
+        if (WKApp.shared.notSupportForward.includes(message.contentType)) {
+          return null;
+        }
+
+        return {
+          title: "转发",
+          onClick: () => {
+            context.fowardMessageUI(message);
+          },
+        };
+      },
+      2000
+    );
+    WKApp.endpoints.registerMessageContextMenus(
+      "contextmenus.reply",
+      (message, context) => {
+        return {
+          title: "回复",
+          onClick: () => {
+            context.reply(message);
+          },
+        };
+      }
+    );
+    WKApp.endpoints.registerMessageContextMenus(
+      "contextmenus.muli",
+      (message, context) => {
+        return {
+          title: "多选",
+          onClick: () => {
+            context.setEditOn(true);
+          },
+        };
+      },
+      3000
+    );
+    WKApp.endpoints.registerMessageContextMenus(
+      "contextmenus.revoke",
+      (message, context) => {
+        if (message.messageID === "") {
+          return null;
+        }
+
+        let isManager = false;
+        if (message.channel.channelType === ChannelTypeGroup) {
+          const sub = WKSDK.shared().channelManager.getSubscribeOfMe(
+            message.channel
+          );
+          if (sub?.role === GroupRole.manager || sub?.role === GroupRole.owner) {
+            isManager = true;
           }
         }
-        const groups = resp.groups;
-        if (groups && groups.length > 0) {
-          for (const group of groups) {
-            WKSDK.shared().channelManager.setChannleInfoForCache(
-              Convert.groupToChannelInfo(group)
-            );
+
+        if (!isManager) {
+          if (!message.send) {
+            return null;
+          }
+          let revokeSecond = WKApp.remoteConfig.revokeSecond;
+          if (revokeSecond > 0) {
+            const messageTime = new Date().getTime() / 1000 - message.timestamp;
+            if (messageTime > revokeSecond) {
+              //  超过两分钟则不显示撤回
+              return null;
+            }
           }
         }
-      }
-      return conversations;
-    };
-  }
-
-  setMessageUploadTaskCallback() {
-    // 消息上传任务
-    WKSDK.shared().config.provider.messageUploadTaskCallback = (
-      message: Message
-    ): MessageTask => {
-      return new MediaMessageUploadTask(message);
-    };
-  }
-
-  setMessageReadedCallback() {
-    WKSDK.shared().config.provider.messageReadedCallback = async (
-      channel: Channel,
-      messages: Message[]
-    ) => {
-      const messageIDs = [];
-      if (messages && messages.length > 0) {
-        for (const message of messages) {
-          messageIDs.push(message.messageID);
-        }
-      }
-      return WKApp.apiClient
-        .post("message/readed", {
-          channel_id: channel.channelID,
-          channel_type: channel.channelType,
-          message_ids: messageIDs,
-        })
-        .catch((err) => {
-          console.log("消息已读未读上报失败！", err);
-        });
-    };
-  }
-
-  setSyncMessageExtraCallback() {
-    WKSDK.shared().config.provider.syncMessageExtraCallback = async (
-      channel: Channel,
-      extraVersion: number,
-      limit: number
-    ) => {
-      return WKApp.conversationProvider.syncMessageExtras(
-        channel,
-        extraVersion,
-        limit
-      );
-    };
+        return {
+          title: "撤回",
+          onClick: () => {
+            context.revokeMessage(message).catch((err) => {
+              Toast.error(err.msg);
+            });
+          },
+        };
+      },
+      4000
+    );
   }
 }

@@ -24,7 +24,7 @@ import WKApp from "../../Service/WkApp";
 // import { RevokeCell } from "../../Messages/Revoke";
 import { EndpointID, MessageContentTypeConst } from "../../Utils/Constant";
 import ConversationContext from "./context";
-import { MessageInputContext } from "../../Interface/MessageInput";
+import { MessageInputContext } from "../MessageInput";
 import MessageInput, { MentionModel } from "../MessageInput";
 // import ContextMenus, { ContextMenusContext, ContextMenusData } from "../ContextMenus";
 import classNames from "classnames";

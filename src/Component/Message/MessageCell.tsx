@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ConversationContext } from "../../Interface/Conversation";
+import ConversationContext from "../Conversation/context";
 import { MessageWrap } from "../../Service/Model";
 
 export interface MessageBaseCellProps {

@@ -1,5 +1,5 @@
 import { Channel, Message, MessageContent } from "wukongimjssdk";
-import { MessageInputContext } from "../../Interface/MessageInput";
+import { MessageInputContext } from "../MessageInput";
 
 
 export default interface ConversationContext {

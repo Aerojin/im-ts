@@ -2,7 +2,7 @@ import React, { Component, CSSProperties, HTMLProps } from "react";
 // import WKSDK from "wukongimjssdk";
 import classNames from "classnames";
 import { Checkbox, Popconfirm } from "antd";
-import { ConversationContext } from "../../../Interface/Conversation";
+import ConversationContext from "../../Conversation/context";
 import { MessageWrap, BubblePosition } from "../../../Service/Model";
 
 // import styles from "./index.module.scss";
