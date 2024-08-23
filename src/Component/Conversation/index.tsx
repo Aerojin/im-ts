@@ -22,11 +22,14 @@ import "./index.css";
 import { MessageWrap } from "../../Service/Model";
 import WKApp from "../../Service/WkApp";
 // import { RevokeCell } from "../../Messages/Revoke";
-import { EndpointID, MessageContentTypeConst } from "../../Utils/Constant";
+import { MessageContentTypeConst } from "../../Utils/Constant";
+import ContextMenus, {
+  ContextMenusContext,
+  ContextMenusData,
+} from "../ContextMenus";
 import ConversationContext from "./context";
 import { MessageInputContext } from "../MessageInput";
 import MessageInput, { MentionModel } from "../MessageInput";
-// import ContextMenus, { ContextMenusContext, ContextMenusData } from "../ContextMenus";
 import classNames from "classnames";
 import WKAvatar from "../WKAvatar";
 // import { FlameMessageCell } from "../../Messages/Flame";
@@ -44,8 +47,8 @@ export class Conversation
   implements ConversationContext
 {
   vm!: ConversationVM;
-  // contextMenusContext!: ContextMenusContext
-  // avatarMenusContext!: ContextMenusContext // 点击头像弹出的菜单
+  contextMenusContext!: ContextMenusContext;
+  avatarMenusContext!: ContextMenusContext; // 点击头像弹出的菜单
   _messageInputContext!: MessageInputContext;
   scrollTimer?: NodeJS.Timer;
   updateBrowseToMessageSeqAndReminderDoneing: boolean = false;
@@ -70,12 +73,12 @@ export class Conversation
   }
 
   fowardMessageUI(message: Message): void {
-    // WKApp.shared.baseContext.showConversationSelect((channels: Channel[]) => {
-    //     let cloneContent = message.content // TODO:这里理论上需要clone一份 但是不clone也没发现问题
-    //     for (const channel of channels) {
-    //         this.sendMessage(cloneContent, channel)
-    //     }
-    // })
+    WKApp.shared.baseContext.showConversationSelect((channels: Channel[]) => {
+        let cloneContent = message.content // TODO:这里理论上需要clone一份 但是不clone也没发现问题
+        for (const channel of channels) {
+            this.sendMessage(cloneContent, channel)
+        }
+    })
   }
   async resendMessage(message: Message): Promise<Message> {
     await this.vm.deleteMessagesFromLocal([message]);
@@ -173,10 +176,10 @@ export class Conversation
 
   showContextMenus(message: Message, event: React.MouseEvent) {
     this.vm.selectMessage = message;
-    // this.contextMenusContext.show(event)
+    this.contextMenusContext.show(event);
   }
   hideContextMenus(): void {
-    // this.contextMenusContext.hide()
+    this.contextMenusContext.hide();
   }
 
   messageInputContext(): MessageInputContext {
@@ -245,7 +248,7 @@ export class Conversation
   }
 
   _handleContextMenus(event: React.MouseEvent) {
-    // this.contextMenusContext.show(event)
+    this.contextMenusContext.show(event);
   }
 
   messageUI(message: MessageWrap, last: boolean) {
@@ -294,7 +297,7 @@ export class Conversation
     this.scrollTimer = setTimeout(() => {
       this.handleScrollEnd();
     }, 500);
-    // this.contextMenusContext.hide()
+    this.contextMenusContext.hide();
     const targetScrollTop = e.target.scrollTop;
     const scrollOffsetTop =
       e.target.scrollHeight - (targetScrollTop + e.target.clientHeight);
@@ -514,7 +517,7 @@ export class Conversation
   }
 
   chatToolbarUI() {
-    const toolbars = WKApp.endpoints.chatToolbars(this)
+    const toolbars = WKApp.endpoints.chatToolbars(this);
     return (
       <ul className="wk-conversation-chattoolbars">
         {toolbars.map((t: any, i: any) => {
@@ -543,7 +546,7 @@ export class Conversation
     const { chatBg, channel } = this.props;
 
     const channelInfo = WKSDK.shared().channelManager.getChannelInfo(channel);
-    
+
     return (
       <Provider
         create={() => {
@@ -653,28 +656,32 @@ export class Conversation
                       vm.unCheckAllMessages();
                     }}
                     onForward={() => {
-                      WKApp.shared.baseContext.showConversationSelect((channels: Channel[]) => {
-                          const messages = vm.getCheckedMessages()
+                      WKApp.shared.baseContext.showConversationSelect(
+                        (channels: Channel[]) => {
+                          const messages = vm.getCheckedMessages();
                           if (!messages || messages.length === 0) {
-                              message.error("请先选择消息！")
-                              return
+                            message.error("请先选择消息！");
+                            return;
                           }
                           for (const message of messages) {
-                              let cloneContent = message.content // TODO:这里理论上需要clone一份 但是不clone也没发现问题
-                              for (const channel of channels) {
-                                  this.sendMessage(cloneContent, channel)
-                              }
+                            let cloneContent = message.content; // TODO:这里理论上需要clone一份 但是不clone也没发现问题
+                            for (const channel of channels) {
+                              this.sendMessage(cloneContent, channel);
+                            }
                           }
-                          vm.editOn = false
-                          vm.unCheckAllMessages()
-                      })
+                          vm.editOn = false;
+                          vm.unCheckAllMessages();
+                        }
+                      );
                     }}
                     onMergeForward={() => {
-                      WKApp.shared.baseContext.showConversationSelect((channels: Channel[]) => {
-                          vm.sendMergeforward(channels)
-                          vm.editOn = false
-                          vm.unCheckAllMessages()
-                      })
+                      WKApp.shared.baseContext.showConversationSelect(
+                        (channels: Channel[]) => {
+                          vm.sendMergeforward(channels);
+                          vm.editOn = false;
+                          vm.unCheckAllMessages();
+                        }
+                      );
                     }}
                     onDelete={async () => {
                       const checkedMessagewraps = vm.getCheckedMessages();
@@ -732,7 +739,7 @@ export class Conversation
                   </div>
                 </div>
               </div>
-              {/* <ContextMenus
+              <ContextMenus
                 onContext={(ctx) => {
                   this.contextMenusContext = ctx;
                 }}
@@ -752,8 +759,8 @@ export class Conversation
                         })
                     : []
                 }
-              ></ContextMenus> */}
-              {/* <ContextMenus
+              ></ContextMenus>
+              <ContextMenus
                 onContext={(ctx) => {
                   this.avatarMenusContext = ctx;
                 }}
@@ -802,7 +809,7 @@ export class Conversation
                     },
                   },
                 ]}
-              /> */}
+              />
             </>
           );
         }}
@@ -985,7 +992,10 @@ class ReplyView extends Component<ReplyViewProps> {
             }
           }}
         >
-          <CloseOutlined className="wk-replyview-close-icon"  style={{ fontSize: 18 }}  />
+          <CloseOutlined
+            className="wk-replyview-close-icon"
+            style={{ fontSize: 18 }}
+          />
         </div>
         <div className="wk-replyview-content">
           <div className="wk-replyview-content-first">
