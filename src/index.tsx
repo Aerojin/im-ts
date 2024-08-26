@@ -7,7 +7,8 @@ import BaseModule from './Module/BaseModule';
 import DataSourceModule from './Module/DataSourceModule';
 import reportWebVitals from './reportWebVitals';
 
-const apiURL = "https://api.botgate.cn/v1/";
+// const apiURL = "https://api.botgate.cn/v1/";
+const apiURL = "http://106.15.250.63:8090/v1/";
 
 WKApp.apiClient.config.apiURL = apiURL;
 WKApp.apiClient.config.tokenCallback = () => {

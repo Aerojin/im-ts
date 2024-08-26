@@ -257,11 +257,16 @@ export default class WKApp extends ProviderListener {
   }
 
   getChannel(): Channel {
+    // WKApp.shared.openChannel = new Channel(
+    //   "41fd143a21b94500a66e4e327fb92d7b",
+    //   2
+    // );
+
     WKApp.shared.openChannel = new Channel(
-      "41fd143a21b94500a66e4e327fb92d7b",
+      "wangkm_group",
       2
     );
-    
+
     return WKApp.shared.openChannel
   }
 
@@ -297,12 +302,15 @@ export default class WKApp extends ProviderListener {
     }
 
     const _this = this;
-    const username: string = "008615900000002";
-    const password: string = "a1234567";
+    // const username: string = "008615900000002";
+    const username: string = "0086" + "13306509966";
+    const password: string = "12345678";
+    // const password: string = "a1234567";
 
     WKApp.dataSource.commonDataSource
       .requestLoginWithUsernameAndPwd(username, password)
       .then((data: any) => {
+        console.log('---登录成功---', data);
         const loginInfo = WKApp.loginInfo;
 
         loginInfo.appID = data.app_id;

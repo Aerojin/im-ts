@@ -10,7 +10,7 @@ const Chat: React.FC<any> = (props: any) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => { setLoading(false); }, 1500);
+    setTimeout(() => { setLoading(false); }, 2500);
   }, []);
 
   if(loading) {
