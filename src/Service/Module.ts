@@ -3,6 +3,10 @@ export interface IModule {
     id(): string;
     init(): void;
 }
+export class IUser {
+    username!: string;
+    password!: string;
+}
 
 export class ModuleManager {
     private constructor() {

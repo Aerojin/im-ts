@@ -16,7 +16,7 @@ import { DataSource } from "./DataSource/DataSource";
 import { IConversationProvider } from "./DataSource/DataProvider";
 import MessageManager from "./MessageManager";
 import { EndpointCommon } from "./EndpointCommon";
-import { EndpointManager, ModuleManager, IModule } from './Module';
+import { EndpointManager, ModuleManager, IModule, IUser } from "./Module";
 import { WKBaseContext } from "../Component/WKBase";
 
 export class WKConfig {
@@ -28,11 +28,27 @@ export class WKConfig {
   pageSizeOfMessage: number = 30; // 每次请求消息数量
   fileHelperUID: string = "fileHelper"; // 文件助手UID
   systemUID: string = "u_10000"; // 系统uid
+  _userInfo!: IUser;
+  _channel!: Channel;
 
   // 公共资源地址
   get publicUrl() {
     console.log("process.env.publicUrl ---->", process.env.PUBLIC_URL);
     return process.env.publicUrl || "";
+  }
+
+  set userInfo(info: any) {
+    this._userInfo = info;
+  }
+  get userInfo(): IUser {
+    return this._userInfo;
+  }
+
+  set channel(info: any) {
+    this._channel = info;
+  }
+  get channel(): Channel {
+    return this._channel;
   }
 }
 
@@ -177,7 +193,9 @@ export default class WKApp extends ProviderListener {
   private constructor() {
     super();
   }
+
   public static shared = new WKApp();
+
   static apiClient = APIClient.shared; // api客户端
   static config: WKConfig = new WKConfig(); // app配置
   static remoteConfig: WKRemoteConfig = new WKRemoteConfig(); // 远程配置
@@ -262,12 +280,18 @@ export default class WKApp extends ProviderListener {
     //   2
     // );
 
+    
     WKApp.shared.openChannel = new Channel(
-      "wangkm_group",
-      2
+      WKApp.config.channel.channelID,
+      WKApp.config.channel.channelType,
     );
 
-    return WKApp.shared.openChannel
+    // WKApp.shared.openChannel = new Channel(
+    //   "wangkm_group",
+    //   2
+    // );
+
+    return WKApp.shared.openChannel;
   }
 
   startMain() {
@@ -303,14 +327,17 @@ export default class WKApp extends ProviderListener {
 
     const _this = this;
     // const username: string = "008615900000002";
-    const username: string = "0086" + "13306509966";
-    const password: string = "12345678";
+    // const username: string = "0086" + "13306509966";
+    // const password: string = "12345678";
     // const password: string = "a1234567";
+
+    const username: string = '0086' + WKApp.config.userInfo.username;
+    const password: string = WKApp.config.userInfo.password;
 
     WKApp.dataSource.commonDataSource
       .requestLoginWithUsernameAndPwd(username, password)
       .then((data: any) => {
-        console.log('---登录成功---', data);
+        console.log("---登录成功---", data);
         const loginInfo = WKApp.loginInfo;
 
         loginInfo.appID = data.app_id;
