@@ -76,14 +76,14 @@ function App() {
         </Form.Item>
         <Form.Item
           name="ChannelId"
-          label="ChannelId"
+          label="群Code"
           rules={[{ required: true }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="ChannelType"
-          label="ChannelType"
+          label="聊天类型"
           rules={[{ required: true }]}
         >
           <Radio.Group>
