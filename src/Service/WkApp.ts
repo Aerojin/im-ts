@@ -18,6 +18,13 @@ import MessageManager from "./MessageManager";
 import { EndpointCommon } from "./EndpointCommon";
 import { EndpointManager, ModuleManager, IModule, IUser } from "./Module";
 import { WKBaseContext } from "../Component/WKBase";
+import { encrypt, decrypt} from '../Utils/rsa';
+
+// const pwd = encrypt('hello aero');
+
+// const pwd1 = decrypt(pwd);
+
+// console.log(222, pwd1);
 
 export class WKConfig {
   appName: string = "唐僧叨叨";

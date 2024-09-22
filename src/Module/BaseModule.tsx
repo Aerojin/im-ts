@@ -241,22 +241,22 @@ export default class BaseModule implements IModule {
       1000
     );
 
-    WKApp.endpoints.registerMessageContextMenus(
-      "contextmenus.forward",
-      (message, context) => {
-        if (WKApp.shared.notSupportForward.includes(message.contentType)) {
-          return null;
-        }
+    // WKApp.endpoints.registerMessageContextMenus(
+    //   "contextmenus.forward",
+    //   (message, context) => {
+    //     if (WKApp.shared.notSupportForward.includes(message.contentType)) {
+    //       return null;
+    //     }
 
-        return {
-          title: "转发",
-          onClick: () => {
-            context.fowardMessageUI(message);
-          },
-        };
-      },
-      2000
-    );
+    //     return {
+    //       title: "转发",
+    //       onClick: () => {
+    //         context.fowardMessageUI(message);
+    //       },
+    //     };
+    //   },
+    //   2000
+    // );
     WKApp.endpoints.registerMessageContextMenus(
       "contextmenus.reply",
       (message, context) => {
@@ -268,58 +268,59 @@ export default class BaseModule implements IModule {
         };
       }
     );
-    WKApp.endpoints.registerMessageContextMenus(
-      "contextmenus.muli",
-      (message, context) => {
-        return {
-          title: "多选",
-          onClick: () => {
-            context.setEditOn(true);
-          },
-        };
-      },
-      3000
-    );
-    WKApp.endpoints.registerMessageContextMenus(
-      "contextmenus.revoke",
-      (message, context) => {
-        if (message.messageID === "") {
-          return null;
-        }
+    // WKApp.endpoints.registerMessageContextMenus(
+    //   "contextmenus.muli",
+    //   (message, context) => {
+    //     return {
+    //       title: "多选",
+    //       onClick: () => {
+    //         context.setEditOn(true);
+    //       },
+    //     };
+    //   },
+    //   3000
+    // );
 
-        let isManager = false;
-        if (message.channel.channelType === ChannelTypeGroup) {
-          const sub = WKSDK.shared().channelManager.getSubscribeOfMe(
-            message.channel
-          );
-          if (sub?.role === GroupRole.manager || sub?.role === GroupRole.owner) {
-            isManager = true;
-          }
-        }
+    // WKApp.endpoints.registerMessageContextMenus(
+    //   "contextmenus.revoke",
+    //   (message, context) => {
+    //     if (message.messageID === "") {
+    //       return null;
+    //     }
 
-        if (!isManager) {
-          if (!message.send) {
-            return null;
-          }
-          let revokeSecond = WKApp.remoteConfig.revokeSecond;
-          if (revokeSecond > 0) {
-            const messageTime = new Date().getTime() / 1000 - message.timestamp;
-            if (messageTime > revokeSecond) {
-              //  超过两分钟则不显示撤回
-              return null;
-            }
-          }
-        }
-        return {
-          title: "撤回",
-          onClick: () => {
-            context.revokeMessage(message).catch((err) => {
-              Toast.error(err.msg);
-            });
-          },
-        };
-      },
-      4000
-    );
+    //     let isManager = false;
+    //     if (message.channel.channelType === ChannelTypeGroup) {
+    //       const sub = WKSDK.shared().channelManager.getSubscribeOfMe(
+    //         message.channel
+    //       );
+    //       if (sub?.role === GroupRole.manager || sub?.role === GroupRole.owner) {
+    //         isManager = true;
+    //       }
+    //     }
+
+    //     if (!isManager) {
+    //       if (!message.send) {
+    //         return null;
+    //       }
+    //       let revokeSecond = WKApp.remoteConfig.revokeSecond;
+    //       if (revokeSecond > 0) {
+    //         const messageTime = new Date().getTime() / 1000 - message.timestamp;
+    //         if (messageTime > revokeSecond) {
+    //           //  超过两分钟则不显示撤回
+    //           return null;
+    //         }
+    //       }
+    //     }
+    //     return {
+    //       title: "撤回",
+    //       onClick: () => {
+    //         context.revokeMessage(message).catch((err) => {
+    //           Toast.error(err.msg);
+    //         });
+    //       },
+    //     };
+    //   },
+    //   4000
+    // );
   }
 }

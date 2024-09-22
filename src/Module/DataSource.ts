@@ -164,6 +164,12 @@ import {
         uids
       );
     }
+
+    async jwtToLogin(jwtToken: string): Promise<void> {
+      return WKApp.apiClient.post('groups/jwt/login', {
+        jwtToken,
+      });
+    }
   
     blacklistAdd(channel: Channel, uids: string[]): Promise<void> {
       return WKApp.apiClient.post(

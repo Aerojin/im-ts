@@ -38,6 +38,9 @@ body[theme-mode=dark]  .wk-contextmenus {
     display: flex;
     align-items: center;
     padding: 10px;
+    flex: 1;
+    width: 100%;
+    justify-content: center;
     cursor: pointer;
 }
 
