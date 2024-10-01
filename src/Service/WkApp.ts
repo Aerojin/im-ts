@@ -18,7 +18,7 @@ import MessageManager from "./MessageManager";
 import { EndpointCommon } from "./EndpointCommon";
 import { EndpointManager, ModuleManager, IModule, IUser } from "./Module";
 import { WKBaseContext } from "../Component/WKBase";
-import { encrypt, decrypt} from '../Utils/rsa';
+// import { encrypt, decrypt} from '../Utils/rsa';
 
 // const pwd = encrypt('hello aero');
 

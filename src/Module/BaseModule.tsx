@@ -173,7 +173,7 @@ export default class BaseModule implements IModule {
       return (
         <EmojiToolbar
           conversationContext={ctx}
-          icon={require("../assets/toolbars/func_face_normal.svg").default}
+          icon={require("../assets/toolbars/func_face_normal.png")}
         ></EmojiToolbar>
       );
     });
@@ -209,7 +209,7 @@ export default class BaseModule implements IModule {
     WKApp.endpoints.registerChatToolbar("chattoolbar.image", (ctx) => {
       return (
         <ImageToolbar
-          icon={require("../assets/toolbars/func_upload_image.svg").default}
+          icon={require("../assets/toolbars/func_upload_image.png")}
           conversationContext={ctx}
         ></ImageToolbar>
       );
