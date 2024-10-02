@@ -18,13 +18,7 @@ import MessageManager from "./MessageManager";
 import { EndpointCommon } from "./EndpointCommon";
 import { EndpointManager, ModuleManager, IModule, IUser } from "./Module";
 import { WKBaseContext } from "../Component/WKBase";
-import { generateToken } from "../Utils/jwt";
-
-// const pwd = encrypt('hello aero');
-
-// const pwd1 = decrypt(pwd);
-
-// console.log(222, pwd1);
+// import { generateToken } from "../Utils/jwt";
 
 export class WKConfig {
   appName: string = "唐僧叨叨";
@@ -35,6 +29,7 @@ export class WKConfig {
   pageSizeOfMessage: number = 30; // 每次请求消息数量
   fileHelperUID: string = "fileHelper"; // 文件助手UID
   systemUID: string = "u_10000"; // 系统uid
+  loading: boolean = true; // 初始化加载
   _userInfo!: IUser;
   _channel!: Channel;
 
@@ -279,23 +274,6 @@ export default class WKApp extends ProviderListener {
     }
 
     WKApp.remoteConfig.startRequestConfig();
-
-    this.loginToJwt();
-  }
-
-  loginToJwt() {
-    const data = {
-      username: "hellojwt4",
-      password: "12345678",
-      flag: 0,
-      device: "adfa",
-    };
-
-    WKApp.apiClient
-      .post("http://106.15.250.63:8090/v1/awakenTheGroup", data)
-      .then((res) => {
-        console.log(4444422, res);
-      });
   }
 
   getChannel(): Channel {
@@ -318,7 +296,7 @@ export default class WKApp extends ProviderListener {
   }
 
   startMain() {
-    this.connectIM();
+     this.connectIM();
   }
 
   connectIM() {
@@ -341,10 +319,10 @@ export default class WKApp extends ProviderListener {
 
   // 登录
   login() {
-    if (this.isLogined()) {
+    if (this.isLogined() && false) {
       console.log("--已经登录，加载登录信息--");
       WKApp.loginInfo.load(); // 加载登录信息
-      this.startMain();
+      this.loadAwakenTheGroup();
       return;
     }
 
@@ -374,6 +352,20 @@ export default class WKApp extends ProviderListener {
 
         WKApp.loginInfo.load();
 
+        _this.loadAwakenTheGroup();
+      });
+  }
+
+  loadAwakenTheGroup() {
+    const _this = this;
+
+    // 获取群ID
+    WKApp.dataSource.commonDataSource
+      .requestAwakenTheGroup()
+      .then((res: any) => {
+        const { group_id } = res || {};
+        WKApp.config.channel.channelID = group_id;
+        WKApp.config.channel.channelType = 2;
         _this.startMain();
       });
   }

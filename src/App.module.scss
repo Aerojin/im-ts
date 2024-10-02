@@ -1,11 +1,24 @@
 .App {
   text-align: left;
+  position: absolute;
+  z-index: 999;
+  width: 900px;
+  height: 600px;
+  bottom: 150px;
+  right: 100px;
+
   
   ul,li{
     padding: 0px;
     margin: 0px;
     list-style: none;
   }
+}
+
+.service {
+  max-width: 50px;
+  max-height: 50px;
+  cursor: pointer;
 }
 
 

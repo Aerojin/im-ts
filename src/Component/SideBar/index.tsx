@@ -44,13 +44,14 @@ const CommonProblem: React.FC = () => {
   );
 };
 
-const SideBar: React.FC = () => {
+const SideBar: React.FC<any> = (props: any) => {
+  const { onClose } = props || {};
   return (
     <div className={styles.app}>
       <CompanyInfo />
       <Divider className={styles.divider} />
       <CommonProblem />
-      <CloseOutlined style={{ fontSize: 20 }} className={styles['im-close']} />
+      <CloseOutlined style={{ fontSize: 20 }} className={styles['im-close']} onClick={onClose} />
     </div>
   );
 };

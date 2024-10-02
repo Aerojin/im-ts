@@ -226,6 +226,16 @@ export class CommonDataSource implements ICommonDataSource {
       });
   }
 
+  requestAwakenTheGroup() {
+    return this.WKApp.apiClient
+    .post(`awakenTheGroup`, {})
+    .then((result: any) => {
+      return result;
+    });
+  }
+
+  
+
   blacklistAdd(uid: string): Promise<void> {
     return this.WKApp.apiClient.post(`user/blacklist/${uid}`);
   }

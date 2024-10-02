@@ -8,6 +8,7 @@ import styles from "./index.module.scss";
 
 const Chat: React.FC<any> = (props: any) => {
   const [loading, setLoading] = useState(true);
+  const { onClose } = props;
 
   useEffect(() => {
     setTimeout(() => { setLoading(false); }, 2500);
@@ -20,11 +21,11 @@ const Chat: React.FC<any> = (props: any) => {
   return (
     <Flex gap={0} className={styles.layout} vertical={false}>
       <Flex vertical className={styles.body}>
-        <Header />
+        <Header/>
         <Conversation channel={WKApp.shared.getChannel()} chatBg=""  />
       </Flex>
       <Flex vertical className={styles.sidebar}>
-        <SideBar />
+        <SideBar onClose={onClose}  />
       </Flex>
     </Flex>
   );

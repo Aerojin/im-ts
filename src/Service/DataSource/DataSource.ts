@@ -128,6 +128,13 @@ export interface ICommonDataSource {
     username: string,
     password: string
   ): Promise<void>;
+
+   /**
+   *  获取群ID
+   */
+   requestAwakenTheGroup(): Promise<void>;
+
+  
   /**
    *  联系人同步
    * @param version 版本号

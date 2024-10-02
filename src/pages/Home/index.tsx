@@ -43,7 +43,7 @@ function App() {
         password: password || "a1234567",
       },
       channelInfo: {
-        channelID: ChannelId || "hellojwt4_group" || "41fd143a21b94500a66e4e327fb92d7b",
+        channelID: ChannelId,
         channelType: ChannelType || 2,
       },
     });
@@ -74,11 +74,7 @@ function App() {
         <Form.Item name="password" label="密码" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
-        <Form.Item
-          name="ChannelId"
-          label="群Code"
-          rules={[{ required: true }]}
-        >
+        <Form.Item name="ChannelId" label="群Code" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
         <Form.Item
