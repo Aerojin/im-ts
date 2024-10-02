@@ -208,6 +208,15 @@ import {
           return result;
         });
     }
+
+    requestLoginForJwtWithUsernameAndPwd(username: string, password: string) {
+      return WKApp.apiClient
+        .post(`user/loginForJwt`, { username: username, password: password, flag: 1 })
+        .then((result: any) => {
+          return result;
+        });
+    }
+
   
     blacklistAdd(uid: string): Promise<void> {
       return WKApp.apiClient.post(`user/blacklist/${uid}`);

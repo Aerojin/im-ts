@@ -5,6 +5,7 @@ export class APIClientConfig {
     private _apiURL: string =""
     private _token:string = ""
     tokenCallback?:()=>string|undefined
+    jwtTokenCallback?:()=>string|undefined
     // private _apiURL: string = "/api/v1/" // 正式打包用此地址
     
 
@@ -28,13 +29,25 @@ export default class APIClient {
     initAxios() {
         const self = this
         axios.interceptors.request.use(function (config) {
-            let token:string | undefined
+            let token:string | undefined;
+            let jwtToken: string | undefined;
+
             if(self.config.tokenCallback) {
                 token = self.config.tokenCallback()
             }
+
+            if(self.config.jwtTokenCallback) {
+                jwtToken = self.config.jwtTokenCallback();
+            }
+
             if (token && token !== "") {
                 config.headers!["token"] = token;
             }
+
+            if (jwtToken && jwtToken !== "") {
+                config.headers!["sign"] = jwtToken;
+            }
+
             return config;
         });
 

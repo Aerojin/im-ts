@@ -43,7 +43,7 @@ function App() {
         password: password || "a1234567",
       },
       channelInfo: {
-        channelID: ChannelId || "41fd143a21b94500a66e4e327fb92d7b",
+        channelID: ChannelId || "hellojwt4_group" || "41fd143a21b94500a66e4e327fb92d7b",
         channelType: ChannelType || 2,
       },
     });
@@ -57,10 +57,10 @@ function App() {
         layout="vertical"
         autoComplete="off"
         initialValues={{
-          api: "https://api.botgate.cn/v1/",
-          username: "15900000002",
-          password: "a1234567",
-          ChannelId: "41fd143a21b94500a66e4e327fb92d7b",
+          api: "http://106.15.250.63:8090/v1/",
+          username: "hellojwt4",
+          password: "12345678",
+          ChannelId: "hellojwt4_group",
           ChannelType: 2,
         }}
         onFinish={onFinish}

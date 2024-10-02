@@ -118,6 +118,16 @@ export interface ICommonDataSource {
     username: string,
     password: string
   ): Promise<void>;
+
+   /**
+   *  登录（jwt模式）
+   * @param username 用户名
+   * @param password 密码
+   */
+   requestLoginForJwtWithUsernameAndPwd(
+    username: string,
+    password: string
+  ): Promise<void>;
   /**
    *  联系人同步
    * @param version 版本号

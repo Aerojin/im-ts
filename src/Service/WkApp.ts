@@ -18,7 +18,7 @@ import MessageManager from "./MessageManager";
 import { EndpointCommon } from "./EndpointCommon";
 import { EndpointManager, ModuleManager, IModule, IUser } from "./Module";
 import { WKBaseContext } from "../Component/WKBase";
-// import { encrypt, decrypt} from '../Utils/rsa';
+import { generateToken } from "../Utils/jwt";
 
 // const pwd = encrypt('hello aero');
 
@@ -279,6 +279,23 @@ export default class WKApp extends ProviderListener {
     }
 
     WKApp.remoteConfig.startRequestConfig();
+
+    this.loginToJwt();
+  }
+
+  loginToJwt() {
+    const data = {
+      username: "hellojwt4",
+      password: "12345678",
+      flag: 0,
+      device: "adfa",
+    };
+
+    WKApp.apiClient
+      .post("http://106.15.250.63:8090/v1/awakenTheGroup", data)
+      .then((res) => {
+        console.log(4444422, res);
+      });
   }
 
   getChannel(): Channel {
@@ -287,10 +304,9 @@ export default class WKApp extends ProviderListener {
     //   2
     // );
 
-    
     WKApp.shared.openChannel = new Channel(
       WKApp.config.channel.channelID,
-      WKApp.config.channel.channelType,
+      WKApp.config.channel.channelType
     );
 
     // WKApp.shared.openChannel = new Channel(
@@ -338,11 +354,12 @@ export default class WKApp extends ProviderListener {
     // const password: string = "12345678";
     // const password: string = "a1234567";
 
-    const username: string = '0086' + WKApp.config.userInfo.username;
+    const username: string = "0086" + WKApp.config.userInfo.username;
     const password: string = WKApp.config.userInfo.password;
+    // WKApp.dataSource.commonDataSource.requestLoginForJwtWithUsernameAndPwd('',  '');
 
     WKApp.dataSource.commonDataSource
-      .requestLoginWithUsernameAndPwd(username, password)
+      .requestLoginForJwtWithUsernameAndPwd(username, password)
       .then((data: any) => {
         console.log("---登录成功---", data);
         const loginInfo = WKApp.loginInfo;

@@ -25,13 +25,19 @@ import reportWebVitals from "./reportWebVitals";
 // // windowAny.WkApp = WKApp;
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <Home />
   </React.StrictMode>
 );
+
+const sayHello = () => {
+  console.log("hello world");
+};
+
+export default { sayHello };
 
 // RunApp({
 //   api: 'https://api.botgate.cn/v1/',
