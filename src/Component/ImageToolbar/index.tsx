@@ -2,6 +2,7 @@ import React,  { Component, ReactNode } from "react";
 import WKApp from "../../Service/WkApp";
 import ConversationContext from "../Conversation/context";
 import { ImageContent } from "../Message/Image";
+import { getI18nText } from '../../i18n';
 
 import "./index.css";
 
@@ -209,7 +210,7 @@ class ImageDialog extends Component<ImageDialogProps> {
             </svg>
           </div>
           <div className="wk-imagedialog-content-title">
-            发送{fileType === "image" ? "图片" : "文件"}
+          {getI18nText('send')}{fileType === "image" ? getI18nText('image') : getI18nText('file') }
           </div>
           <div className="wk-imagedialog-content-body">
             {fileType === "image" ? (
@@ -246,7 +247,7 @@ class ImageDialog extends Component<ImageDialogProps> {
               </div>
             )}
             <div className="wk-imagedialog-footer">
-              <button onClick={onClose}>取消</button>
+              <button onClick={onClose}>{getI18nText('cancel')}</button>
               <button
                 onClick={onSend}
                 className="wk-imagedialog-footer-okbtn"
@@ -255,7 +256,7 @@ class ImageDialog extends Component<ImageDialogProps> {
                   backgroundColor: canSend ? WKApp.config.themeColor : "gray",
                 }}
               >
-                发送
+                {getI18nText('send')}
               </button>
             </div>
           </div>

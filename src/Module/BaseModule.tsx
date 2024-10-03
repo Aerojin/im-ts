@@ -44,6 +44,7 @@ import MergeforwardContent, {
   MergeforwardCell,
 } from "../Component/Message/Mergeforward";
 import APIClient from "../Service/APIClient";
+import { getI18nText } from '../i18n';
 
 export default class BaseModule implements IModule {
   messageTone?: Howl;
@@ -225,7 +226,7 @@ export default class BaseModule implements IModule {
         }
 
         return {
-          title: "复制",
+          title: getI18nText('copy'),
           onClick: () => {
             (function (s) {
               document.oncopy = function (e) {
@@ -261,7 +262,7 @@ export default class BaseModule implements IModule {
       "contextmenus.reply",
       (message, context) => {
         return {
-          title: "回复",
+          title: getI18nText('reply'),
           onClick: () => {
             context.reply(message);
           },

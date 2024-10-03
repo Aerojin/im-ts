@@ -1,48 +1,48 @@
-import { MessageContent } from "wukongimjssdk"
+import { MessageContent } from "wukongimjssdk";
 // import React from "react"
 // import WKApp from "../../App"
-import { MessageContentTypeConst } from "../../Utils/Constant"
+import { MessageContentTypeConst } from "../../Utils/Constant";
+import { getI18nText } from "../../i18n";
 // import MessageBase from "../Base"
 // import { MessageCell } from "../MessageCell"
 // import "@lottiefiles/lottie-player/dist/tgs-player";
 
-
 export class LottieSticker extends MessageContent {
-    url!: string
-    category!: string
-    placeholder!: string
-    format!: string
-    decodeJSON(content: any) {
-        this.url = content["url"] || ""
-        this.category = content["category"] || ""
-        this.placeholder = content["placeholder"] || ""
-        this.format = content["format"] || ""
-    }
-    get conversationDigest() {
-
-        return "[贴图]"
-    }
-    encodeJSON() {
-        
-        return {url:this.url||"",category:this.category||"",placeholder:this.placeholder||"",format:this.format||""}
-    }
-    get contentType() {
-        return MessageContentTypeConst.lottieSticker
-    }
-    
+  url!: string;
+  category!: string;
+  placeholder!: string;
+  format!: string;
+  decodeJSON(content: any) {
+    this.url = content["url"] || "";
+    this.category = content["category"] || "";
+    this.placeholder = content["placeholder"] || "";
+    this.format = content["format"] || "";
+  }
+  get conversationDigest() {
+    return `[${getI18nText("chartlet")}]`;
+  }
+  encodeJSON() {
+    return {
+      url: this.url || "",
+      category: this.category || "",
+      placeholder: this.placeholder || "",
+      format: this.format || "",
+    };
+  }
+  get contentType() {
+    return MessageContentTypeConst.lottieSticker;
+  }
 }
 
-
 declare global {
-    namespace JSX {
-        interface IntrinsicElements {
-            "tgs-player": any;
-        }
+  namespace JSX {
+    interface IntrinsicElements {
+      "tgs-player": any;
     }
+  }
 }
 
 // export class LottieStickerCell extends MessageCell {
-
 
 //     render() {
 

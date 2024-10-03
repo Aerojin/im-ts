@@ -20,6 +20,7 @@ import { IConversationProvider } from "../../../Service/DataSource/DataProvider"
 import WKApp from "../../../Service/WkApp";
 // import ClockLoader from "react-spinners/ClockLoader";
 import Checkbox from "../../Checkbox";
+import { getI18nText } from '../../../i18n';
 import classNames from "classnames";
 
 interface MessageBaseProps extends HTMLProps<any> {
@@ -193,13 +194,13 @@ export default class MessageBase extends Component<MessageBaseProps, any> {
     const { message } = this.props;
     switch (message.reasonCode) {
       case MessageReasonCode.reasonSubscriberNotExist:
-        return "您已被踢出群聊。";
+        return getI18nText('remove_from_the_group');
       case MessageReasonCode.reasonNotAllowSend:
       case MessageReasonCode.reasonNotInWhitelist:
       case MessageReasonCode.reasonInBlacklist:
-        return "你已被禁言或全员禁言";
+        return getI18nText('everyone_is_silent');
       case MessageReasonCode.reasonSystemError:
-        return "系统错误";
+        return getI18nText('system_error');
     }
   }
 

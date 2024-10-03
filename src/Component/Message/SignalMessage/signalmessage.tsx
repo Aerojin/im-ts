@@ -2,10 +2,11 @@ import { MessageSignalContent } from "wukongimjssdk";
 import React from "react";
 import MessageBase from "../Base";
 import { MessageCell } from "../MessageCell";
+import { getI18nText } from '../../../i18n';
 
 export class SignalMessageContent extends MessageSignalContent {
   public get conversationDigest(): string {
-    return "此消息已采用端对端加密，web端无法解密，请在手机端查看";
+    return getI18nText('message_is_encrypted');
   }
 }
 
@@ -15,7 +16,7 @@ export class SignalMessageCell extends MessageCell {
     return (
       <MessageBase context={context} message={message} onBubble={() => {}}>
         <div className="wk-message-text">
-          <pre>此消息已采用端对端加密，web端无法解密，请在手机端查看</pre>
+          <pre>{getI18nText('message_is_encrypted')}</pre>
         </div>
       </MessageBase>
     );

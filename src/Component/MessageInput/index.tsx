@@ -9,6 +9,7 @@ import WKApp from "../../Service/WkApp";
 import "./index.css"
 import './mention.css'
 import InputStyle from "./defaultStyle";
+import { getI18nText } from '../../i18n';
 // import {IconSend} from '@douyinfe/semi-icons';
 
 export type OnInsertFnc = (text: string) => void
@@ -128,8 +129,8 @@ export default class MessageInput extends Component<MessageInputProps, MessageIn
         const { value } = this.state;
         if (value && value.length > 1000) {
             notification.error({
-                message: '提示',
-                description: "输入内容长度不能大于1000字符！",
+                message: getI18nText('tips'),
+                description: getI18nText('cannot_be_longer_than_1000_characters'),
             })
             return
         }
@@ -306,7 +307,7 @@ export default class MessageInput extends Component<MessageInputProps, MessageIn
                         onKeyPress={e => this.handleKeyPressed.bind(this)(e)}
                         onChange={this.handleChange.bind(this)}
                         className="wk-messageinput-input"
-                        placeholder={`按 Ctrl + Enter 换行，按 Enter 发送`}
+                        placeholder={getI18nText('ctrl_enter')}
                         allowSuggestionsAboveCursor={true}
                         inputRef={(ref: any) => {
                             this.inputRef = ref

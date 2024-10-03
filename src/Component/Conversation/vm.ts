@@ -36,6 +36,7 @@ import { HistorySplitContent } from "../Message/HistorySplit";
 import MergeforwardContent from "../Message/Mergeforward";
 // import { TypingListener, TypingManager } from "../../Service/TypingManager";
 import { ProhibitwordsService } from "../../Service/ProhibitwordsService";
+import { getI18nText } from "../../i18n";
 
 export default class ConversationVM extends ProviderListener {
   loading: boolean = false; // 消息是否加载中
@@ -1135,7 +1136,9 @@ export default class ConversationVM extends ProviderListener {
 
   // 格式化时间
   formatMessageTime(message: MessageWrap) {
-    return moment(message.timestamp * 1000).format("MM月DD日");
+    return moment(message.timestamp * 1000).format(
+      `MM${getI18nText("month")}DD${getI18nText("day")}`
+    );
   }
 
   // 获取历史分割线消息

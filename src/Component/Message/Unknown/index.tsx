@@ -2,6 +2,7 @@ import React from "react";
 import { UnknownContent } from "wukongimjssdk";
 import MessageBase from "../Base";
 import { MessageCell } from "../MessageCell";
+import { getI18nText } from '../../../i18n';
 
 export class UnknownCell extends MessageCell {
   render() {
@@ -9,7 +10,7 @@ export class UnknownCell extends MessageCell {
     const content = message.content as UnknownContent;
     return (
       <MessageBase context={context} message={message}>
-        [此消息不支持查看，请至手机端查看详情({content.realContentType})]
+        [{getI18nText('message_does_not_support_viewing')}({content.realContentType})]
       </MessageBase>
     );
   }

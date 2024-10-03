@@ -7,6 +7,7 @@ import { MessageContentTypeConst } from "../../../Utils/Constant";
 import MessageBase from "../Base"
 import MessageTrail from "../Base/tail"
 import { MessageCell } from "../MessageCell"
+import { getI18nText} from '../../../i18n';
 
 import "./index.css"
 
@@ -50,7 +51,7 @@ export default class MergeforwardContent extends MessageContent {
         return MessageContentTypeConst.mergeForward
     }
     get conversationDigest() {
-        return "[合并转发]"
+        return `[${getI18nText('merge_forward')}]`
     }
 
     mapToMessage(messageMap: any): Message {
@@ -95,14 +96,14 @@ export class MergeforwardCell extends MessageCell<any,MergeforwardCellState> {
 
     getTitle(content: MergeforwardContent) {
         if (content.channelType === ChannelTypeGroup) {
-            return "群的聊天记录"
+            return getI18nText('group_chatting_records');
         }
 
         const names = content.users.map((v) => {
             return v.name
         })
 
-        return `${names.join("、")}的聊天记录`
+        return `${names.join("、")}${getI18nText('chatting_records')}`
 
     }
 

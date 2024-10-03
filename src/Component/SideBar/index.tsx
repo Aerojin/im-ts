@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col, Image, Divider } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
+import { getI18nText } from '../../i18n';
 import styles from "./index.module.scss";
 
 const CompanyInfo = () => {
@@ -16,11 +17,11 @@ const CompanyInfo = () => {
         <Col className={styles['company-name']}>北京京東叁佰陸拾電子商務有限公司</Col>
       </Row>
       <Row className={styles.mt10}>
-        <Col span={6}>企业码：</Col>
+        <Col span={6}>{getI18nText('enterprise_code')}：</Col>
         <Col>1234567891234536</Col>
       </Row>
       <Row>
-        <Col span={6}>账号：</Col>
+        <Col span={6}>{getI18nText('account')}：</Col>
         <Col>123456789</Col>
       </Row>
     </div>
@@ -30,7 +31,7 @@ const CompanyInfo = () => {
 const CommonProblem: React.FC = () => {
   return (
     <ul className={styles.problem}>
-      <li className={styles.title}>常见问题</li>
+      <li className={styles.title}>{getI18nText('common_problem')}</li>
       <li>
         <a href="https://www.taobao.com/">怎么成为采购商</a>
       </li>

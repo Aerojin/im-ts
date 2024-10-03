@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { getI18nText } from '../i18n';
 
 
 export class APIClientConfig {
@@ -60,7 +61,7 @@ export default class APIClient {
                     msg = error.response.data.msg;
                     break;
                 case 404:
-                    msg = "请求地址没有找到（404）"
+                    msg = getI18nText('404');
                     break;
                 case 401:
                     if(self.logoutCallback) {
@@ -68,7 +69,7 @@ export default class APIClient {
                     }
                     break;
                 default:
-                    msg = "未知错误"
+                    msg = getI18nText('unknown_error');
                     break;
             }
             return Promise.reject({ error: error, msg: msg, status: error?.response?.status });

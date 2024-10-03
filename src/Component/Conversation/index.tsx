@@ -32,6 +32,7 @@ import { MessageInputContext } from "../MessageInput";
 import MessageInput, { MentionModel } from "../MessageInput";
 import classNames from "classnames";
 import WKAvatar from "../WKAvatar";
+import { getI18nText } from "../../i18n";
 // import { FlameMessageCell } from "../../Messages/Flame";
 
 export interface ConversationProps {
@@ -74,11 +75,11 @@ export class Conversation
 
   fowardMessageUI(message: Message): void {
     WKApp.shared.baseContext.showConversationSelect((channels: Channel[]) => {
-        let cloneContent = message.content // TODO:这里理论上需要clone一份 但是不clone也没发现问题
-        for (const channel of channels) {
-            this.sendMessage(cloneContent, channel)
-        }
-    })
+      let cloneContent = message.content; // TODO:这里理论上需要clone一份 但是不clone也没发现问题
+      for (const channel of channels) {
+        this.sendMessage(cloneContent, channel);
+      }
+    });
   }
   async resendMessage(message: Message): Promise<Message> {
     await this.vm.deleteMessagesFromLocal([message]);
@@ -628,7 +629,7 @@ export class Conversation
                         }}
                       >
                         <div className="wk-conversation-content-fileupload-mask-content">
-                          发送给 &nbsp; {channelInfo?.title}
+                          {getI18nText("send_to")} &nbsp; {channelInfo?.title}
                         </div>
                       </div>
                     ) : undefined}
@@ -660,7 +661,7 @@ export class Conversation
                         (channels: Channel[]) => {
                           const messages = vm.getCheckedMessages();
                           if (!messages || messages.length === 0) {
-                            message.error("请先选择消息！");
+                            message.error(getI18nText("select_message"));
                             return;
                           }
                           for (const message of messages) {
@@ -785,7 +786,7 @@ export class Conversation
                     },
                   },
                   {
-                    title: "查看用户信息",
+                    title: getI18nText("view_user"),
                     onClick: () => {
                       if (!this.vm.selectUID) {
                         return;
@@ -1061,7 +1062,9 @@ class MultiplePanel extends Component<MultiplePanelProps> {
                 <path d="M362.666667 704h554.666666a21.333333 21.333333 0 0 1 21.333334 21.333333v42.666667a21.333333 21.333333 0 0 1-21.333334 21.333333H362.666667a21.333333 21.333333 0 0 1-21.333334-21.333333v-42.666667a21.333333 21.333333 0 0 1 21.333334-21.333333zM106.666667 874.666667h810.666666a21.333333 21.333333 0 0 1 21.333334 21.333333v42.666667a21.333333 21.333333 0 0 1-21.333334 21.333333H106.666667a21.333333 21.333333 0 0 1-21.333334-21.333333v-42.666667a21.333333 21.333333 0 0 1 21.333334-21.333333z m427.093333-661.034667V57.152c0-3.84 1.6-7.530667 4.416-10.24a15.36 15.36 0 0 1 21.184 0L846.72 326.122667a21.205333 21.205333 0 0 1 0 30.698666L559.36 635.754667a15.253333 15.253333 0 0 1-10.602667 4.245333 14.72 14.72 0 0 1-14.976-14.485333v-155.733334H503.893333c-116.053333 0-203.946667 22.762667-257.301333 89.792-4.416 5.546667-9.216 11.264-16.256 20.096a8.106667 8.106667 0 0 1-5.248 3.264c-3.989333 0.512-7.125333-1.536-8.128-6.144-2.730667-14.421333-3.626667-29.866667-3.626667-40.746666 0-175.210667 143.466667-322.410667 320.426667-322.410667z m85.333333 85.333333h-85.333333c-80.277333 0-151.914667 41.984-194.453333 104.981334 47.722667-13.44 102.421333-19.52 164.586666-19.52h115.2v74.410666l120.96-117.397333-120.96-117.504v75.029333z"></path>
               </svg>
             </div>
-            <div className="wk-multiplepanel-content-item-title">逐条转发</div>
+            <div className="wk-multiplepanel-content-item-title">
+              {getI18nText("item_forwarding")}
+            </div>
           </div>
           <div
             className="wk-multiplepanel-content-item"
@@ -1080,7 +1083,9 @@ class MultiplePanel extends Component<MultiplePanelProps> {
                 <path d="M362.666667 704h554.666666a21.333333 21.333333 0 0 1 21.333334 21.333333v42.666667a21.333333 21.333333 0 0 1-21.333334 21.333333H362.666667a21.333333 21.333333 0 0 1-21.333334-21.333333v-42.666667a21.333333 21.333333 0 0 1 21.333334-21.333333zM106.666667 874.666667h810.666666a21.333333 21.333333 0 0 1 21.333334 21.333333v42.666667a21.333333 21.333333 0 0 1-21.333334 21.333333H106.666667a21.333333 21.333333 0 0 1-21.333334-21.333333v-42.666667a21.333333 21.333333 0 0 1 21.333334-21.333333z m427.093333-661.034667V57.152c0-3.84 1.6-7.530667 4.416-10.24a15.36 15.36 0 0 1 21.184 0L846.72 326.122667a21.205333 21.205333 0 0 1 0 30.698666L559.36 635.754667a15.253333 15.253333 0 0 1-10.602667 4.245333 14.72 14.72 0 0 1-14.976-14.485333v-155.733334H503.893333c-116.053333 0-203.946667 22.762667-257.301333 89.792-4.416 5.546667-9.216 11.264-16.256 20.096a8.106667 8.106667 0 0 1-5.248 3.264c-3.989333 0.512-7.125333-1.536-8.128-6.144-2.730667-14.421333-3.626667-29.866667-3.626667-40.746666 0-175.210667 143.466667-322.410667 320.426667-322.410667z m85.333333 85.333333h-85.333333c-80.277333 0-151.914667 41.984-194.453333 104.981334 47.722667-13.44 102.421333-19.52 164.586666-19.52h115.2v74.410666l120.96-117.397333-120.96-117.504v75.029333z"></path>
               </svg>
             </div>
-            <div className="wk-multiplepanel-content-item-title">合并转发</div>
+            <div className="wk-multiplepanel-content-item-title">
+              {getI18nText("merge_forward")}
+            </div>
           </div>
           <div
             className="wk-multiplepanel-content-item"
@@ -1099,7 +1104,9 @@ class MultiplePanel extends Component<MultiplePanelProps> {
                 <path d="M362.666667 704h554.666666a21.333333 21.333333 0 0 1 21.333334 21.333333v42.666667a21.333333 21.333333 0 0 1-21.333334 21.333333H362.666667a21.333333 21.333333 0 0 1-21.333334-21.333333v-42.666667a21.333333 21.333333 0 0 1 21.333334-21.333333zM106.666667 874.666667h810.666666a21.333333 21.333333 0 0 1 21.333334 21.333333v42.666667a21.333333 21.333333 0 0 1-21.333334 21.333333H106.666667a21.333333 21.333333 0 0 1-21.333334-21.333333v-42.666667a21.333333 21.333333 0 0 1 21.333334-21.333333z m427.093333-661.034667V57.152c0-3.84 1.6-7.530667 4.416-10.24a15.36 15.36 0 0 1 21.184 0L846.72 326.122667a21.205333 21.205333 0 0 1 0 30.698666L559.36 635.754667a15.253333 15.253333 0 0 1-10.602667 4.245333 14.72 14.72 0 0 1-14.976-14.485333v-155.733334H503.893333c-116.053333 0-203.946667 22.762667-257.301333 89.792-4.416 5.546667-9.216 11.264-16.256 20.096a8.106667 8.106667 0 0 1-5.248 3.264c-3.989333 0.512-7.125333-1.536-8.128-6.144-2.730667-14.421333-3.626667-29.866667-3.626667-40.746666 0-175.210667 143.466667-322.410667 320.426667-322.410667z m85.333333 85.333333h-85.333333c-80.277333 0-151.914667 41.984-194.453333 104.981334 47.722667-13.44 102.421333-19.52 164.586666-19.52h115.2v74.410666l120.96-117.397333-120.96-117.504v75.029333z"></path>
               </svg>
             </div>
-            <div className="wk-multiplepanel-content-item-title">删除</div>
+            <div className="wk-multiplepanel-content-item-title">
+              {getI18nText("delete")}
+            </div>
           </div>
         </div>
       </div>

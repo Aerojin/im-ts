@@ -1,6 +1,7 @@
 // import ReactDOM from "react-dom/client";
 // import { Affix } from "antd";
 import RunApp from "./init";
+import { setLocale } from '../../i18n';
 // import styles from "./index.module.scss";
 
 class Dialog {
@@ -61,6 +62,10 @@ class Dialog {
 const dialog = new Dialog();
 
 const runApp = (props: any) => {
+  const {locale } = props;
+
+  // 设置语言
+  setLocale(locale);
   dialog.render(props);
 
   return dialog;

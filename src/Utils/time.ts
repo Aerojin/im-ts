@@ -1,3 +1,4 @@
+import { getI18nText } from '../i18n';
 /**
 * 对Date的扩展，将 Date 转化为指定格式的String。
 *
@@ -72,7 +73,7 @@ export function getTimeStringAutoShort2(timestamp:number, mustIncludeTime:boolea
         if (currentMonth === srcMonth && currentDateD === srcDateD) {
             // 时间相差60秒以内
             if (deltaTime < 60 * 1000)
-                ret = "刚刚";
+                ret = getI18nText('just_now');
             // 否则当天其它时间段的，直接显示“时:分”的形式
             else
                 ret = _formatDate(srcDate, "hh:mm");
@@ -91,10 +92,10 @@ export function getTimeStringAutoShort2(timestamp:number, mustIncludeTime:boolea
             // 的形式，是不准确的，比如：现在时刻是2019年02月22日1:00、而srcDate是2019年02月21日23:00，
             // 这两者间只相差2小时，直接用“deltaTime/(3600 * 1000)” > 24小时来判断是否昨天，就完全是扯蛋的逻辑了）
             if (srcMonth === (yesterdayDate.getMonth() + 1) && srcDateD === yesterdayDate.getDate())
-                ret = "昨天" + timeExtraStr;// -1d
+                ret = getI18nText('yesterday') + timeExtraStr;// -1d
             // “前天”判断逻辑同上
             else if (srcMonth === (beforeYesterdayDate.getMonth() + 1) && srcDateD === beforeYesterdayDate.getDate())
-                ret = "前天" + timeExtraStr;// -2d
+                ret = getI18nText('the_day_before') + timeExtraStr;// -2d
             else {
                 // 跟当前时间相差的小时数
                 var deltaHour = (deltaTime / (3600 * 1000));
@@ -102,13 +103,13 @@ export function getTimeStringAutoShort2(timestamp:number, mustIncludeTime:boolea
                 // 如果小于或等 7*24小时就显示星期几
                 if (deltaHour <= 7 * 24) {
                     var weekday = new Array(7);
-                    weekday[0] = "星期日";
-                    weekday[1] = "星期一";
-                    weekday[2] = "星期二";
-                    weekday[3] = "星期三";
-                    weekday[4] = "星期四";
-                    weekday[5] = "星期五";
-                    weekday[6] = "星期六";
+                    weekday[0] = getI18nText('sunday');
+                    weekday[1] = getI18nText('monday');
+                    weekday[2] = getI18nText('tuesday');
+                    weekday[3] = getI18nText('wednesday');
+                    weekday[4] = getI18nText('thursday');
+                    weekday[5] = getI18nText('friday');
+                    weekday[6] = getI18nText('saturday');
 
                     // 取出当前是星期几
                     var weedayDesc = weekday[srcDate.getDay()];

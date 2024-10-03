@@ -1,10 +1,11 @@
 import WKSDK, { MediaMessageContent, Task } from "wukongimjssdk";
 import React from "react";
+import Viewer from "react-viewer";
 // import WKApp from "../../App";
 import { MessageContentTypeConst } from "../../../Utils/Constant";
 import MessageBase from "../Base";
 import { MessageCell } from "../MessageCell";
-import Viewer from "react-viewer";
+import { getI18nText } from '../../../i18n';
 import "./index.css";
 
 const getImageURL = (path: string, opts?: { width: number, height: number }): string => {
@@ -44,7 +45,7 @@ export class ImageContent extends MediaMessageContent {
     return MessageContentTypeConst.image;
   }
   get conversationDigest() {
-    return "[图片]";
+    return `[${getI18nText('image')}]`;
   }
 }
 

@@ -7,6 +7,7 @@ import { dateFormat, getTimeStringAutoShort2 } from "../../../Utils/time";
 import WKAvatar from "../../WKAvatar";
 import WKViewQueueHeader from "../../WKViewQueueHeader";
 import WKApp from "../../../Service/WkApp";
+import { getI18nText } from '../../../i18n';
 
 import "./index.css"
 
@@ -19,14 +20,14 @@ export default class MergeforwardMessageList extends Component<MergeforwardMessa
 
     getTitle(content: MergeforwardContent) {
         if (content.channelType === ChannelTypeGroup) {
-            return "群的聊天记录"
+            return getI18nText('group_chatting_records');
         }
 
         const names = content.users.map((v) => {
             return v.name
         })
 
-        return `${names.join("、")}的聊天记录`
+        return `${names.join("、")}${getI18nText('chatting_records')}`
 
     }
 

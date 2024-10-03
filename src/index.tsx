@@ -38,6 +38,7 @@ const windowAny = window as any;
 // );
 
 RunApp({
+  locale: 'zh',
   username: 'hellojwt4',
   jwtToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbGxvand0NEAxNjMuY29tIiwidXNlcm5hbWUiOiJoZWxsb2p3dDQiLCJleHAiOjE3Mjc5Mjk3ODksImlhdCI6MTcyNzg0MzM4OX0.rVL_qDDIUmJ8tVo-qq7Zv0Ien6iW0qT_BjL5nIBqfb7vTqCk4MR4BvcI7dEEVfGzBKZr0duCNuy6Q-7RSeTL1sfUGNwZzC0vXgzKNe--Sy6NlUJdYOLEVWEWynZGboAKSFUw08WB0-Er8Exu_HwcXJYR5a0mglJgPJ2mr5sMnK14cGx2SEAYwxQKcEZ3qnVT4ci6IxrPEz8M8wNUJr-0n6rFrgBJ374jZtXvsp9_j5-lrGjS3sCYOuQhfHcEo9rLoIgnsVBitP6Rf2aFglGBWpbijvv1yysZN5neQtBv6MmF30yo40ns3AgaAk14h4mhHOAHwjLItgXUII17nwFEIQ"
 });

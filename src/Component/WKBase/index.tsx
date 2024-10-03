@@ -4,6 +4,7 @@ import React, { Component, HTMLProps, ReactNode } from "react";
 import ConversationSelect from "../ConversationSelect";
 // import UserInfo from "../UserInfo";
 import WKApp from "../../Service/WkApp";
+import { getI18nText } from '../../i18n';
 import "./index.css";
 
 export interface WKBaseState {
@@ -255,7 +256,7 @@ export default class WKBase
         <Modal
           visible={showJoinOrgInfo}
           width={400}
-          title="加入组织"
+          title={getI18nText('join_the_organization')}
           className="wk-base-modal-join-org"
           footer={null}
           mask={false}
