@@ -17,11 +17,11 @@ const CompanyInfo = () => {
         <Col className={styles['company-name']}>北京京東叁佰陸拾電子商務有限公司</Col>
       </Row>
       <Row className={styles.mt10}>
-        <Col span={6}>{getI18nText('enterprise_code')}：</Col>
+        <Col span={12}>{getI18nText('enterprise_code')}：</Col>
         <Col>1234567891234536</Col>
       </Row>
       <Row>
-        <Col span={6}>{getI18nText('account')}：</Col>
+        <Col span={12}>{getI18nText('account')}：</Col>
         <Col>123456789</Col>
       </Row>
     </div>
