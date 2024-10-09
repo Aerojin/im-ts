@@ -1,4 +1,5 @@
 import zh from "./zh";
+import ru from "./ru";
 
 let locale: string;
 const getI18nText = (key: string): string => {
@@ -8,7 +9,11 @@ const getI18nText = (key: string): string => {
     return zh[key] || "";
   }
 
-  return "";
+  if(value === 'ru') {
+    return ru[key] || "";
+  }
+
+  return zh[key] || "";
 };
 
 const setLocale = (locale: string = "zh") => {
