@@ -4,7 +4,7 @@
 
 # API
 ```
- window.RunApp({
+ window.__RunApp__({
     locale: 'zh',                   // 语言包 zh|ru
     username: 'hellojwt4',          // 用户名
     jwtToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",  // jwtToken
