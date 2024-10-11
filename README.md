@@ -4,7 +4,7 @@
 # 使用方法
 * 调试: `npm run start`
 * 编译: `npm run build`
-* 引入SDK: 将编译后的`build/js/main.*.js`和`build/js/main.*.css`引入到自己的页面中，SDK 本身会在 window 下暴露__RunApp__方法，只需要调用`window.__RunApp__`即可，`__RunApp__`的 API 见下文。
+* 引入SDK: 将编译后的`build/js/main.*.js`和`build/css/main.*.css`引入到自己的页面中，SDK 本身会在 window 下暴露__RunApp__方法，只需要调用`window.__RunApp__`即可，`__RunApp__`的 API 见下文。
 
 
 # API
