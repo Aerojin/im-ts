@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { MessageContent, MessageText } from "wukongimjssdk";
+import { MessageText } from "wukongimjssdk";
 import { Flex } from "antd";
 import WKApp from "../../Service/WkApp";
 import Header from "../Header";
