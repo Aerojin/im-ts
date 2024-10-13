@@ -6,7 +6,16 @@ import BaseModule from "../../Module/BaseModule";
 import DataSourceModule from "../../Module/DataSourceModule";
 
 const RunApp = (props: any = {}) => {
-  const { api, loginInfo, style = {}, onVisibleChange, buttonProps, channelInfo, jwtToken, rootId, onClose } = props;
+  const {
+    api,
+    loginInfo,
+    style = {},
+    onVisibleChange,
+    channelInfo,
+    jwtToken,
+    rootId,
+    onReady,
+  } = props;
 
   const apiURL = api;
 
@@ -33,7 +42,11 @@ const RunApp = (props: any = {}) => {
 
   root.render(
     <React.StrictMode>
-      <App onClose={onClose} style={style} onVisibleChange={onVisibleChange} buttonProps={buttonProps} />
+      <App
+        onReady={onReady}
+        style={style}
+        onVisibleChange={onVisibleChange}
+      />
     </React.StrictMode>
   );
 };

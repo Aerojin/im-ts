@@ -25,9 +25,9 @@ class Dialog {
     const {
       jwtToken,
       username,
-      buttonProps = {},
       style = {},
       onVisibleChange,
+      onReady = () => {},
       api = "http://106.15.250.63:8090/v1/",
     } = props;
 
@@ -35,7 +35,7 @@ class Dialog {
       api: api,
       jwtToken,
       style,
-      buttonProps,
+      onReady,
       onVisibleChange,
       rootId: _this.rootId,
       loginInfo: {

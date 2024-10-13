@@ -38,18 +38,30 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+  <div class="css-dev-only-do-not-override-1c0na6j ant-affix"
+    style="position: fixed; right: 100px; bottom: 100px; width: 0px; height: 15px;">
+    <img id="button" class="App_service__itYpa" width="50px" height="50px"
+      src="https://cdn.wuhuxianmai.cn/deltrix/im_kefu.jpeg" alt="">
+  </div>
   <script type="text/javascript">
     (function () {
+      const button = document.getElementById('button');
+
+
       setTimeout(() => {
         if (window.__RunApp__) {
           fetch('http://106.15.250.63:8090/v1/user/getJwtToken?username=hellojwt4').then((res) => {
-            return  res.json();
+            return res.json();
           }).then((res) => {
             const { jwtToken, username } = res || {};
             window.__RunApp__({
               locale: 'zh',
               username: username,
               jwtToken: jwtToken,
+              onReady: (payload = {}) => {
+                const { onCloseIm, onOpenIm } = payload || {};
+                button.addEventListener('click', onOpenIm);
+              },
             });
           });
         }
