@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row, Col, Image, Divider } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import { getI18nText } from '../../i18n';
+import apiClient from "../../Service/APIClient";
+import { getI18nText } from "../../i18n";
 import styles from "./index.module.scss";
 
-const CompanyInfo = () => {
+const api = "https://shenzhi.kstore.shop/callback/qaConfig/open/list";
+const getList = () => {
+  apiClient.shared.post(api, { configNum: 10 }).then((res: any) => {
+    console.log(555, res);
+  });
+};
+
+const CompanyInfo = (props: any) => {
+  const { companyInfo = {} } = props || {};
+  const { name = "", enterpriseCode = "", account = "" } = companyInfo || {};
   return (
-    <div className={styles['company-info']}>
+    <div className={styles["company-info"]}>
       <Row wrap={false}>
         <Col>
           <Image
@@ -14,15 +24,15 @@ const CompanyInfo = () => {
             src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
           />
         </Col>
-        <Col className={styles['company-name']}>北京京東叁佰陸拾電子商務有限公司</Col>
+        <Col className={styles["company-name"]}>{name}</Col>
       </Row>
       <Row className={styles.mt10}>
-        <Col span={12}>{getI18nText('enterprise_code')}：</Col>
-        <Col>1234567891234536</Col>
+        <Col span={12}>{getI18nText("enterprise_code")}：</Col>
+        <Col>{enterpriseCode}</Col>
       </Row>
       <Row>
-        <Col span={12}>{getI18nText('account')}：</Col>
-        <Col>123456789</Col>
+        <Col span={12}>{getI18nText("account")}：</Col>
+        <Col>{account}</Col>
       </Row>
     </div>
   );
@@ -31,7 +41,7 @@ const CompanyInfo = () => {
 const CommonProblem: React.FC = () => {
   return (
     <ul className={styles.problem}>
-      <li className={styles.title}>{getI18nText('common_problem')}</li>
+      <li className={styles.title}>{getI18nText("common_problem")}</li>
       <li>
         <a href="https://www.taobao.com/">怎么成为采购商</a>
       </li>
@@ -46,13 +56,22 @@ const CommonProblem: React.FC = () => {
 };
 
 const SideBar: React.FC<any> = (props: any) => {
-  const { onClose } = props || {};
+  const { onClose, companyInfo = {} } = props || {};
+
+  useEffect(() => {
+    // getList();
+  }, []);
+
   return (
     <div className={styles.app}>
-      <CompanyInfo />
+      <CompanyInfo companyInfo={companyInfo} />
       <Divider className={styles.divider} />
       <CommonProblem />
-      <CloseOutlined style={{ fontSize: 20 }} className={styles['im-close']} onClick={onClose} />
+      <CloseOutlined
+        style={{ fontSize: 20 }}
+        className={styles["im-close"]}
+        onClick={onClose}
+      />
     </div>
   );
 };

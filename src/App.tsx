@@ -7,7 +7,7 @@ import styles from "./App.module.scss";
 
 function App(props: any = {}) {
   const [visible, setVisible] = useState(false);
-  const { style = {}, onVisibleChange, onReady } = props || {};
+  const { style = {}, onVisibleChange, onReady, companyInfo = {} } = props || {};
   const { bottom = 150, right = 100 } = style || {};
 
   useEffect(() => {
@@ -42,7 +42,7 @@ function App(props: any = {}) {
             WKApp.shared.baseContext = ctx;
           }}
         >
-          <Chat onClose={onClose} />
+          <Chat onClose={onClose} companyInfo={companyInfo} />
         </WKBase>
       </div>
     </React.Fragment>

@@ -15,6 +15,7 @@ const RunApp = (props: any = {}) => {
     jwtToken,
     rootId,
     onReady,
+    companyInfo = {},
   } = props;
 
   const apiURL = api;
@@ -43,6 +44,7 @@ const RunApp = (props: any = {}) => {
   root.render(
     <React.StrictMode>
       <App
+        companyInfo={companyInfo}
         onReady={onReady}
         style={style}
         onVisibleChange={onVisibleChange}

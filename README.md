@@ -13,6 +13,11 @@
     locale: 'zh',                   // 语言包 zh|ru
     username: 'hellojwt4',          // 用户名
     jwtToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",  // jwtToken
+    companyInfo: {                              // 右侧企业信息
+        account: '123123',                      // 账号
+        enterpriseCode: '1234567891234536',     // 企业码
+        name: '北京京東叁佰陸拾電子商務有限公司',    // 企业名称  
+    },
     onVisibleChange: () => {},               // 隐藏显示回调函数
     onReady: (payload = {}) => {             //  im准备回调函数
         const { onCloseIm, onOpenIm } = payload || {};   //暴露open和close事件

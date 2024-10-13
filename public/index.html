@@ -58,6 +58,11 @@
               locale: 'zh',
               username: username,
               jwtToken: jwtToken,
+              companyInfo: {
+                account: '123123',
+                enterpriseCode: '1234567891234536',
+                name: '北京京東叁佰陸拾電子商務有限公司',
+              },
               onReady: (payload = {}) => {
                 const { onCloseIm, onOpenIm } = payload || {};
                 button.addEventListener('click', onOpenIm);
