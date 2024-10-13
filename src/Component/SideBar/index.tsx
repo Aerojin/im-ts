@@ -38,25 +38,27 @@ const CompanyInfo = (props: any) => {
   );
 };
 
-const CommonProblem: React.FC = () => {
+const CommonProblem = (props: any) => {
+  const { onSendMessage } = props || {};
+
   return (
     <ul className={styles.problem}>
       <li className={styles.title}>{getI18nText("common_problem")}</li>
-      <li>
-        <a href="https://www.taobao.com/">怎么成为采购商</a>
+      <li onClick={() => onSendMessage('怎么成为采购商')}>
+        怎么成为采购商
       </li>
-      <li>
-        <a href="https://www.taobao.com/">网站购买该如何支付</a>
+      <li onClick={() => onSendMessage('网站购买该如何支付')}>
+        网站购买该如何支付
       </li>
-      <li>
-        <a href="https://www.taobao.com/">我的采购货物到哪里了？</a>
+      <li onClick={() => onSendMessage('我的采购货物到哪里了？')}>
+        我的采购货物到哪里了
       </li>
     </ul>
   );
 };
 
 const SideBar: React.FC<any> = (props: any) => {
-  const { onClose, companyInfo = {} } = props || {};
+  const { onClose, companyInfo = {}, onSendMessage } = props || {};
 
   useEffect(() => {
     // getList();
@@ -66,7 +68,7 @@ const SideBar: React.FC<any> = (props: any) => {
     <div className={styles.app}>
       <CompanyInfo companyInfo={companyInfo} />
       <Divider className={styles.divider} />
-      <CommonProblem />
+      <CommonProblem onSendMessage={onSendMessage} />
       <CloseOutlined
         style={{ fontSize: 20 }}
         className={styles["im-close"]}

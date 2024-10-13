@@ -1,14 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { MessageContent, MessageText } from "wukongimjssdk";
 import { Flex } from "antd";
 import WKApp from "../../Service/WkApp";
 import Header from "../Header";
 import SideBar from "../SideBar";
 import { Conversation } from "../Conversation";
+import ConversationContext from "../Conversation/context";
 import styles from "./index.module.scss";
 
 const Chat: React.FC<any> = (props: any) => {
   const [loading, setLoading] = useState(true);
   const { onClose, companyInfo = {} } = props;
+  const context = useRef<ConversationContext | undefined>(undefined);
+
+  const onContext = useCallback(
+    (ctx: ConversationContext) => {
+      context.current = ctx;
+    },
+    [context]
+  );
+
+  const onSendMessage = useCallback(
+    (msg: string) => {
+      if (context.current) {
+        context.current?.sendMessage(
+          new MessageText(msg),
+          WKApp.shared.getChannel()
+        );
+      }
+    },
+    [context]
+  );
 
   useEffect(() => {
     setTimeout(() => {
@@ -24,10 +46,18 @@ const Chat: React.FC<any> = (props: any) => {
     <Flex gap={0} className={styles.layout} vertical={false}>
       <Flex vertical className={styles.body}>
         <Header />
-        <Conversation channel={WKApp.shared.getChannel()} chatBg="" />
+        <Conversation
+          onContext={onContext}
+          channel={WKApp.shared.getChannel()}
+          chatBg=""
+        />
       </Flex>
       <Flex vertical className={styles.sidebar}>
-        <SideBar onClose={onClose} companyInfo={companyInfo} />
+        <SideBar
+          onClose={onClose}
+          companyInfo={companyInfo}
+          onSendMessage={onSendMessage}
+        />
       </Flex>
     </Flex>
   );

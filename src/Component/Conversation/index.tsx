@@ -64,6 +64,7 @@ export class Conversation
     content: MessageContent,
     channel?: Channel
   ): Promise<Message> {
+    console.log(333, content, channel);
     // const { channel } = this.props
     let c = channel;
     if (!c) {
