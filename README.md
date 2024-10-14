@@ -10,7 +10,7 @@
 # API
 ```
  window.__RunApp__({
-    locale: 'zh',                   // 语言包 zh|ru
+    locale: 'zh',                   // 语言包 cn|ru
     username: 'hellojwt4',          // 用户名
     jwtToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",  // jwtToken
     companyInfo: {                              // 右侧企业信息

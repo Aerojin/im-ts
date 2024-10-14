@@ -5,7 +5,7 @@ let locale: string;
 const getI18nText = (key: string): string => {
   const value = getLocale();
 
-  if (value === "zh") {
+  if (value === "cn") {
     return zh[key] || "";
   }
 
@@ -16,13 +16,13 @@ const getI18nText = (key: string): string => {
   return zh[key] || "";
 };
 
-const setLocale = (locale: string = "zh") => {
-  localStorage.setItem("__deltrix__locale__", locale || "zh");
+const setLocale = (locale: string = "cn") => {
+  localStorage.setItem("__deltrix__locale__", locale || "cn");
 };
 
 const getLocale = (): string => {
   if (!locale) {
-    locale = localStorage.getItem("__deltrix__locale__") || "zh";
+    locale = localStorage.getItem("__deltrix__locale__") || "cn";
   }
 
   return locale;
