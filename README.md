@@ -14,6 +14,7 @@
     username: 'hellojwt4',          // 用户名
     jwtToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",  // jwtToken
     companyInfo: {                              // 右侧企业信息
+        uri: '...'                              // 企业头像
         account: '123123',                      // 账号
         enterpriseCode: '1234567891234536',     // 企业码
         name: '北京京東叁佰陸拾電子商務有限公司',    // 企业名称  

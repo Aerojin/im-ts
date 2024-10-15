@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Row, Col, Image, Divider, Tooltip } from "antd";
+import React, { Children, useEffect, useState } from "react";
+import { Row, Col, Image, Divider, Tooltip, Collapse, Empty } from "antd";
 
 import { CloseOutlined } from "@ant-design/icons";
 import apiClient from "../../Service/APIClient";
@@ -40,6 +40,19 @@ const formatProblem = (data: any = []) => {
         id: el.id,
         question,
         answer,
+        label: question,
+        children: answer,
+        showArrow: false,
+        classNames: styles.question,
+      });
+
+      array.push({
+        id: el.id + 1,
+        question,
+        answer,
+        label: question,
+        children: answer,
+        showArrow: false,
       });
     }
   });
@@ -57,15 +70,17 @@ const getList = () => {
 
 const CompanyInfo = (props: any) => {
   const { companyInfo = {} } = props || {};
-  const { name = "", enterpriseCode = "", account = "" } = companyInfo || {};
+  const {
+    name = "",
+    enterpriseCode = "",
+    account = "",
+    uri = "",
+  } = companyInfo || {};
   return (
     <div className={styles["company-info"]}>
       <Row wrap={false}>
         <Col>
-          <Image
-            width={50}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
+          <Image width={50} src={uri} />
         </Col>
         <Col className={styles["company-name"]}>{name}</Col>
       </Row>
@@ -87,6 +102,12 @@ const CommonProblem = (props: any) => {
   return (
     <ul className={styles.problem}>
       <li className={styles.title}>{getI18nText("common_problem")}</li>
+      {!data || data.length === 0 ? (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+      ) : (
+        <Collapse accordion ghost  items={data} />
+      )}
+      {/* 
       {data.map((el: any) => {
         const { question, answer, id } = el || {};
         return (
@@ -96,7 +117,7 @@ const CommonProblem = (props: any) => {
             </li>
           </Tooltip>
         );
-      })}
+      })} */}
       {/* <li onClick={() => onSendMessage("怎么成为采购商")}>怎么成为采购商</li> */}
       {/* <li onClick={() => onSendMessage("网站购买该如何支付")}>
         网站购买该如何支付
