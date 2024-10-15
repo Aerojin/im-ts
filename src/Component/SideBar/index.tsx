@@ -133,7 +133,7 @@ const SideBar: React.FC<any> = (props: any) => {
   const { onClose, companyInfo = {}, onSendMessage } = props || {};
   const [problem, setProblem] = useState([]);
 
-  console.log(555, problem);
+  // console.log(555, problem);
 
   useEffect(() => {
     // getList();

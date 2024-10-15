@@ -41,16 +41,11 @@
       margin-bottom: 10px;
     }
   }
-
-  .question {
-    div {
-      color: #1677ff !important;
-      padding: 5px 10px !important;
-    }
-  }
 }
 
-
+:global(.ant-collapse-content-box) {
+  padding-block: 0px !important;
+}
 
 .company-info {
   width: 100%;

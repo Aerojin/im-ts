@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { ConfigProvider } from "antd";
 import App from "../../App";
 import WKApp from "../../Service/WkApp";
 import BaseModule from "../../Module/BaseModule";
 import DataSourceModule from "../../Module/DataSourceModule";
+import customTheme from './theme';
 
 const RunApp = (props: any = {}) => {
   const {
@@ -42,14 +44,16 @@ const RunApp = (props: any = {}) => {
   );
 
   root.render(
-    <React.StrictMode>
-      <App
-        companyInfo={companyInfo}
-        onReady={onReady}
-        style={style}
-        onVisibleChange={onVisibleChange}
-      />
-    </React.StrictMode>
+    <ConfigProvider theme={customTheme}>
+      <React.StrictMode>
+        <App
+          companyInfo={companyInfo}
+          onReady={onReady}
+          style={style}
+          onVisibleChange={onVisibleChange}
+        />
+      </React.StrictMode>
+    </ConfigProvider>
   );
 };
 
