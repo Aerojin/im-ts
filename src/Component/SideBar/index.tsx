@@ -1,8 +1,6 @@
-import React, { Children, useEffect, useState } from "react";
-import { Row, Col, Image, Divider, Tooltip, Collapse, Empty } from "antd";
-
+import React, { useEffect, useState } from "react";
+import { Row, Col, Image, Divider, Collapse, Empty } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import apiClient from "../../Service/APIClient";
 import { getI18nText, getLocale } from "../../i18n";
 import styles from "./index.module.scss";
 
@@ -14,20 +12,6 @@ const capitalizeFirstLetter = (str: string): string => {
 };
 
 const locale = capitalizeFirstLetter(getLocale());
-const mock = [
-  {
-    extendMap: {},
-    id: 1,
-    configNum: "8895245602",
-    questionCn: "物流信息更新",
-    answerCn: "在订单详情页查看物流信息",
-    questionEn: "logistics information update",
-    answerEn: "View logistics information on the order details page.",
-    questionRu: "обновление информации о логистике.",
-    answerRu:
-      "Просматривать информацию о логистике на странице с подробностями заказа.",
-  },
-];
 
 const formatProblem = (data: any = []) => {
   const array: any = [];
@@ -45,26 +29,16 @@ const formatProblem = (data: any = []) => {
         showArrow: false,
         classNames: styles.question,
       });
-
-      array.push({
-        id: el.id + 1,
-        question,
-        answer,
-        label: question,
-        children: answer,
-        showArrow: false,
-      });
     }
   });
 
   return array;
 };
 
-const api =
-  "https://shenzhi-test.kstore.shop/callback/qaConfig/open/list?configNum=";
+const api = "https://shenzhi-test.kstore.shop/callback/qaConfig/open/list?configNum=";
 const getList = () => {
-  apiClient.shared.get(api, { param: {} }).then((res: any) => {
-    console.log(555, res);
+  return fetch(api).then((res: any) => {
+    return res.json();
   });
 };
 
@@ -105,7 +79,7 @@ const CommonProblem = (props: any) => {
       {!data || data.length === 0 ? (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
       ) : (
-        <Collapse accordion ghost  items={data} />
+        <Collapse accordion ghost items={data} />
       )}
       {/* 
       {data.map((el: any) => {
@@ -133,11 +107,13 @@ const SideBar: React.FC<any> = (props: any) => {
   const { onClose, companyInfo = {}, onSendMessage } = props || {};
   const [problem, setProblem] = useState([]);
 
-  // console.log(555, problem);
-
   useEffect(() => {
-    // getList();
-    setProblem(formatProblem(mock));
+    getList().then((res: any) => {
+      const { context } = res || {};
+      const { configVOList = [] } = context || {};
+
+      setProblem(formatProblem(configVOList));
+    });
   }, []);
 
   return (
