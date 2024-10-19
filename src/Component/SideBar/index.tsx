@@ -59,11 +59,11 @@ const CompanyInfo = (props: any) => {
         <Col className={styles["company-name"]}>{name}</Col>
       </Row>
       <Row className={styles.mt10}>
-        <Col span={12}>{getI18nText("enterprise_code")}：</Col>
+        <Col span={7}>{getI18nText("enterprise_code")}：</Col>
         <Col>{enterpriseCode}</Col>
       </Row>
       <Row>
-        <Col span={12}>{getI18nText("account")}：</Col>
+        <Col span={17}>{getI18nText("account")}：</Col>
         <Col>{account}</Col>
       </Row>
     </div>
