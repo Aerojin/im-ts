@@ -12,6 +12,7 @@
  window.__RunApp__({
     locale: 'zh',                   // 语言包 cn|ru
     username: 'hellojwt4',          // 用户名
+    api: "http://106.15.250.63:8090/v1/",  //  im服务器api接口配置
     jwtToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",  // jwtToken
     companyInfo: {                              // 右侧企业信息
         uri: '...'                              // 企业头像

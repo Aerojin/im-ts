@@ -5,10 +5,17 @@ import Chat from "./Component/Chat";
 import WKBase from "./Component/WKBase";
 import styles from "./App.module.scss";
 
+const DEFAULT_STYLE = { bottom: 150, right: 100 };
+
 function App(props: any = {}) {
   const [visible, setVisible] = useState(false);
-  const { style = {}, onVisibleChange, onReady, companyInfo = {} } = props || {};
-  const { bottom = 150, right = 100 } = style || {};
+  const {
+    style = DEFAULT_STYLE,
+    onVisibleChange,
+    onReady,
+    companyInfo = {},
+  } = props || {};
+  // const newStyle = ({ bottom = 150, right = 100 } = style || {});
 
   useEffect(() => {
     if (onReady && typeof onReady === "function") {
@@ -34,7 +41,7 @@ function App(props: any = {}) {
     <React.Fragment>
       <div
         className={styles.App}
-        style={{ bottom, right, display: visible ? "block" : "none" }}
+        style={{ ...style, display: visible ? "block" : "none" }}
       >
         <WKBase
           onContext={(ctx) => {
