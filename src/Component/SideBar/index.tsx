@@ -63,7 +63,7 @@ const CompanyInfo = (props: any) => {
         <Col>{enterpriseCode}</Col>
       </Row>
       <Row>
-        <Col span={17}>{getI18nText("account")}：</Col>
+        <Col span={7}>{getI18nText("account")}：</Col>
         <Col>{account}</Col>
       </Row>
     </div>
@@ -111,6 +111,8 @@ const SideBar: React.FC<any> = (props: any) => {
     getList().then((res: any) => {
       const { context } = res || {};
       const { configVOList = [] } = context || {};
+
+      console.log(111, res);
 
       setProblem(formatProblem(configVOList));
     });

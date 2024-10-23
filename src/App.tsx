@@ -3,17 +3,20 @@ import React, { useState, useEffect } from "react";
 import WKApp from "./Service/WkApp";
 import Chat from "./Component/Chat";
 import WKBase from "./Component/WKBase";
+import { setLocale } from "./i18n";
 import styles from "./App.module.scss";
 
 const DEFAULT_STYLE = { bottom: 150, right: 100 };
 
 function App(props: any = {}) {
   const [visible, setVisible] = useState(false);
+  const [key, setKey] = useState(Date.now());
   const {
     style = DEFAULT_STYLE,
     onVisibleChange,
     onReady,
     companyInfo = {},
+    unmounted = () => {},
   } = props || {};
   // const newStyle = ({ bottom = 150, right = 100 } = style || {});
 
@@ -28,8 +31,18 @@ function App(props: any = {}) {
           setVisible(false);
           onVisibleChange && onVisibleChange(false);
         },
+        onChangeLanguage: (locale: string) => {
+          setLocale(locale || "cn");
+          setTimeout(() => {
+            setKey(Date.now());
+          }, 0);
+        },
       });
     }
+
+    return () => {
+      unmounted && unmounted();
+    };
   }, []);
 
   const onClose = () => {
@@ -49,7 +62,7 @@ function App(props: any = {}) {
             WKApp.shared.baseContext = ctx;
           }}
         >
-          <Chat onClose={onClose} companyInfo={companyInfo} />
+          <Chat key={key} onClose={onClose} companyInfo={companyInfo} />
         </WKBase>
       </div>
     </React.Fragment>

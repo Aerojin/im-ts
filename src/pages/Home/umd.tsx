@@ -29,6 +29,7 @@ class Dialog {
       onVisibleChange,
       companyInfo = {},
       onReady = () => {},
+      unmounted = () => {},
       api = "http://106.15.250.63:8090/v1/",
     } = props;
 
@@ -37,6 +38,7 @@ class Dialog {
       jwtToken,
       style,
       onReady,
+      unmounted,
       companyInfo,
       onVisibleChange,
       rootId: _this.rootId,

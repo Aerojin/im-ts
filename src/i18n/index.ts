@@ -1,7 +1,8 @@
 import zh from "./zh";
 import ru from "./ru";
 
-let locale: string;
+const cache: any = { locale: "" };
+const KEY = "__deltrix__locale__";
 const getI18nText = (key: string): string => {
   const value = getLocale();
 
@@ -9,7 +10,7 @@ const getI18nText = (key: string): string => {
     return zh[key] || "";
   }
 
-  if(value === 'ru') {
+  if (value === "ru") {
     return ru[key] || "";
   }
 
@@ -17,15 +18,15 @@ const getI18nText = (key: string): string => {
 };
 
 const setLocale = (locale: string = "cn") => {
-  localStorage.setItem("__deltrix__locale__", locale || "cn");
+  localStorage.setItem(KEY, locale || "cn");
+  cache.locale = undefined;
 };
 
 const getLocale = (): string => {
-  if (!locale) {
-    locale = localStorage.getItem("__deltrix__locale__") || "cn";
+  if (!cache.locale) {
+    cache.locale = localStorage.getItem(KEY) || "cn";
   }
-
-  return locale;
+  return cache.locale;
 };
 
 export { setLocale, getLocale, getI18nText };

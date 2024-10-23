@@ -27,7 +27,9 @@
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
+  <div id="root">
+    <button id="btnLang">切换语言</button>
+  </div>
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -46,6 +48,8 @@
   <script type="text/javascript">
     (function () {
       const button = document.getElementById('button');
+      const btnLang = document.getElementById('btnLang');
+      const events = {};
 
 
       setTimeout(() => {
@@ -65,9 +69,22 @@
                 name: '北京京東叁佰陸拾電子商務有限公司',
                 uri: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
               },
+              unmounted: () => {
+                console.log('==unmounted==');
+                button.removeEventListener('click', events['open']);
+                btnLang.removeEventListener('click', events['changeLang']);
+              },
               onReady: (payload = {}) => {
-                const { onCloseIm, onOpenIm } = payload || {};
-                button.addEventListener('click', onOpenIm);
+                const { onCloseIm, onOpenIm, onChangeLanguage } = payload || {};
+                
+                events['open'] = onOpenIm
+                events['changeLang'] = () => {
+                  onChangeLanguage('ru');
+                }
+
+                button.addEventListener('click', events['open']);
+
+                btnLang.addEventListener('click', events['changeLang']);
               },
             });
           });
