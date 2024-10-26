@@ -11,9 +11,10 @@ const capitalizeFirstLetter = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-const locale = capitalizeFirstLetter(getLocale());
-
 const formatProblem = (data: any = []) => {
+  const locale = capitalizeFirstLetter(getLocale());
+
+  console.log(111,locale);
   const array: any = [];
   data.forEach((el: any) => {
     const question = el[`question${locale}`];

@@ -1,103 +1,80 @@
-import React, { useCallback } from "react";
-import type { FormInstance } from "antd";
-import { Button, Form, Input, Space, Radio } from "antd";
-import RunApp from "./init";
-import styles from "./index.module.scss";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { ConfigProvider } from "antd";
+import App from "../../App";
+import WKApp from "../../Service/WkApp";
+import { setLocale } from "../../i18n";
+import BaseModule from "../../Module/BaseModule";
+import DataSourceModule from "../../Module/DataSourceModule";
+import customTheme from "./theme";
 
-interface SubmitButtonProps {
-  form: FormInstance;
-}
+// let append = false;
+const defaultApi = "http://106.15.250.63:8090/v1/";
 
-const SubmitButton: React.FC<React.PropsWithChildren<SubmitButtonProps>> = ({
-  form,
-  children,
-}) => {
-  const [submittable, setSubmittable] = React.useState<boolean>(false);
+const CreateIm = (props: any = {}) => {
+  const {
+    api,
+    username,
+    style = {},
+    onVisibleChange,
+    jwtToken,
+    rootId,
+    onReady,
+    unmounted,
+    companyInfo = {},
+  } = props;
 
-  // Watch all values
-  const values = Form.useWatch([], form);
+  WKApp.config.userInfo = {
+    username,
+    password: "",
+  };
 
-  React.useEffect(() => {
-    form
-      .validateFields({ validateOnly: true })
-      .then(() => setSubmittable(true))
-      .catch(() => setSubmittable(false));
-  }, [form, values]);
+  WKApp.config.channel = {
+    channelID: "",
+    channelType: 2,
+  };
 
-  return (
-    <Button type="primary" htmlType="submit" disabled={!submittable}>
-      {children}
-    </Button>
+  WKApp.apiClient.config.apiURL = api || defaultApi;
+  WKApp.apiClient.config.tokenCallback = () => {
+    return WKApp.loginInfo.token;
+  };
+
+  WKApp.apiClient.config.jwtTokenCallback = () => {
+    return jwtToken;
+  };
+  WKApp.loginInfo.load(); // 加载登录信息
+
+  WKApp.shared.registerModule(new BaseModule());
+  WKApp.shared.registerModule(new DataSourceModule());
+  WKApp.shared.startup(); // app启动
+
+  const root = ReactDOM.createRoot(
+    document.getElementById(rootId) as HTMLElement
+  );
+
+  root.render(
+    <ConfigProvider theme={customTheme}>
+      <React.StrictMode>
+        <App
+          companyInfo={companyInfo}
+          onReady={onReady}
+          style={style}
+          unmounted={unmounted}
+          onVisibleChange={onVisibleChange}
+        />
+      </React.StrictMode>
+    </ConfigProvider>
   );
 };
 
-function App() {
-  const [form] = Form.useForm();
 
-  const onFinish = useCallback((values: any) => {
-    const { api, username, password, ChannelId, ChannelType } = values;
-    RunApp({
-      api: api || "https://api.botgate.cn/v1/",
-      loginInfo: {
-        username: username || "15900000002",
-        password: password || "a1234567",
-      },
-      channelInfo: {
-        channelID: ChannelId,
-        channelType: ChannelType || 2,
-      },
-    });
-  }, []);
+const render = (props: any) => {
+  const { locale, ...restProps } = props;
+  // 设置语言
+  setLocale(locale);
 
-  return (
-    <div className={styles.app}>
-      <Form
-        form={form}
-        name="validateOnly"
-        layout="vertical"
-        autoComplete="off"
-        initialValues={{
-          api: "http://106.15.250.63:8090/v1/",
-          username: "hellojwt4",
-          password: "12345678",
-          ChannelId: "hellojwt4_group",
-          ChannelType: 2,
-        }}
-        onFinish={onFinish}
-      >
-        <Form.Item name="api" label="api地址" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item name="username" label="用户名" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item name="password" label="密码" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item name="ChannelId" label="群Code" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="ChannelType"
-          label="聊天类型"
-          rules={[{ required: true }]}
-        >
-          <Radio.Group>
-            <Radio value={1} disabled>
-              单聊
-            </Radio>
-            <Radio value={2}>群聊</Radio>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item>
-          <Space>
-            <SubmitButton form={form}>Submit</SubmitButton>
-            <Button htmlType="reset">Reset</Button>
-          </Space>
-        </Form.Item>
-      </Form>
-    </div>
-  );
-}
+  // 创建IM
+  CreateIm(restProps);
+};
 
-export default App;
+export default render;
