@@ -51,6 +51,8 @@
       const btnLang = document.getElementById('btnLang');
       const events = {};
 
+      const api = "https://shenzhi-test.kstore.shop/callback/qaConfig/open/list?configNum=";
+
 
       setTimeout(() => {
         if (window.__RunApp__) {
@@ -69,6 +71,16 @@
                 name: '北京京東叁佰陸拾電子商務有限公司',
                 uri: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
               },
+              getQuestion: () => {
+                return fetch(api).then((res) => {
+                  return res.json();
+                }).then((res) => {
+                  const { context } = res || {};
+                  const { configVOList = [] } = context || {};
+
+                  return { success: true, data: configVOList };
+                });
+              },
               unmounted: () => {
                 console.log('==unmounted==');
                 button.removeEventListener('click', events['open']);
@@ -76,7 +88,7 @@
               },
               onReady: (payload = {}) => {
                 const { onCloseIm, onOpenIm, onChangeLanguage } = payload || {};
-                
+
                 events['open'] = onOpenIm
                 events['changeLang'] = () => {
                   onChangeLanguage('ru');

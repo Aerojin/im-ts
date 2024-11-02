@@ -12,6 +12,7 @@ function App(props: any = {}) {
   const [visible, setVisible] = useState(false);
   const [key, setKey] = useState(Date.now());
   const {
+    getQuestion = () => {},
     style = DEFAULT_STYLE,
     onVisibleChange,
     onReady,
@@ -62,7 +63,7 @@ function App(props: any = {}) {
             WKApp.shared.baseContext = ctx;
           }}
         >
-          <Chat key={key} onClose={onClose} companyInfo={companyInfo} />
+          <Chat key={key} onClose={onClose} getQuestion={getQuestion} companyInfo={companyInfo} />
         </WKBase>
       </div>
     </React.Fragment>

@@ -33,6 +33,9 @@ const events = {};
         btnLang.removeEventListener('click', events['changeLang']);
     },
     onVisibleChange: () => {},               // 隐藏显示回调函数
+    getQuestion: () => {                    // 获取对话框右边问答列表
+        return Promise.resolve({ success: true, data: [] });
+    },
     onReady: (payload = {}) => {             //  im准备回调函数
         const { onCloseIm, onOpenIm， onChangeLanguage } = payload || {};   //暴露open，close，onChangeLanguage事件
 

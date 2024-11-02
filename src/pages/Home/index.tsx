@@ -21,6 +21,7 @@ const CreateIm = (props: any = {}) => {
     rootId,
     onReady,
     unmounted,
+    getQuestion,
     companyInfo = {},
   } = props;
 
@@ -60,6 +61,7 @@ const CreateIm = (props: any = {}) => {
           onReady={onReady}
           style={style}
           unmounted={unmounted}
+          getQuestion={getQuestion}
           onVisibleChange={onVisibleChange}
         />
       </React.StrictMode>

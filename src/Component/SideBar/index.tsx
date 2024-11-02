@@ -14,7 +14,6 @@ const capitalizeFirstLetter = (str: string): string => {
 const formatProblem = (data: any = []) => {
   const locale = capitalizeFirstLetter(getLocale());
 
-  console.log(111,locale);
   const array: any = [];
   data.forEach((el: any) => {
     const question = el[`question${locale}`];
@@ -34,13 +33,6 @@ const formatProblem = (data: any = []) => {
   });
 
   return array;
-};
-
-const api = "https://shenzhi-test.kstore.shop/callback/qaConfig/open/list?configNum=";
-const getList = () => {
-  return fetch(api).then((res: any) => {
-    return res.json();
-  });
 };
 
 const CompanyInfo = (props: any) => {
@@ -105,18 +97,21 @@ const CommonProblem = (props: any) => {
 };
 
 const SideBar: React.FC<any> = (props: any) => {
-  const { onClose, companyInfo = {}, onSendMessage } = props || {};
+  const { onClose, companyInfo = {}, onSendMessage, getQuestion } = props || {};
   const [problem, setProblem] = useState([]);
 
   useEffect(() => {
-    getList().then((res: any) => {
-      const { context } = res || {};
-      const { configVOList = [] } = context || {};
+    if (getQuestion && typeof getQuestion === "function") {
+      getQuestion().then((res: any) => {
+        const { success = true, data = [] } = res || {};
 
-      console.log(111, res);
+        if (!success) {
+          return;
+        }
 
-      setProblem(formatProblem(configVOList));
-    });
+        setProblem(formatProblem(data));
+      });
+    }
   }, []);
 
   return (

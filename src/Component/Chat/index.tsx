@@ -10,7 +10,7 @@ import styles from "./index.module.scss";
 
 const Chat: React.FC<any> = (props: any) => {
   const [loading, setLoading] = useState(true);
-  const { onClose, companyInfo = {} } = props;
+  const { onClose, companyInfo = {}, getQuestion } = props;
   const context = useRef<ConversationContext | undefined>(undefined);
 
   const onContext = useCallback(
@@ -56,6 +56,7 @@ const Chat: React.FC<any> = (props: any) => {
         <SideBar
           onClose={onClose}
           companyInfo={companyInfo}
+          getQuestion={getQuestion}
           onSendMessage={onSendMessage}
         />
       </Flex>
