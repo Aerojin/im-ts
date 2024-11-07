@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import { ConfigProvider } from "antd";
 import App from "../../App";
 import WKApp from "../../Service/WkApp";
-import { setLocale } from "../../i18n";
 import BaseModule from "../../Module/BaseModule";
 import DataSourceModule from "../../Module/DataSourceModule";
 import customTheme from "./theme";
@@ -69,14 +68,4 @@ const CreateIm = (props: any = {}) => {
   );
 };
 
-
-const render = (props: any) => {
-  const { locale, ...restProps } = props;
-  // 设置语言
-  setLocale(locale);
-
-  // 创建IM
-  CreateIm(restProps);
-};
-
-export default render;
+export default CreateIm;

@@ -332,7 +332,7 @@ export default class WKApp extends ProviderListener {
     // const password: string = "12345678";
     // const password: string = "a1234567";
 
-    const username: string = "0086" + WKApp.config.userInfo.username;
+    const username: string = WKApp.config.userInfo.username;
     const password: string = WKApp.config.userInfo.password;
     // WKApp.dataSource.commonDataSource.requestLoginForJwtWithUsernameAndPwd('',  '');
 

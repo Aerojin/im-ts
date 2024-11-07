@@ -1,7 +1,8 @@
 // import React from "react";
 // import ReactDOM from "react-dom/client";
 import "./index.scss";
-import RunApp from "./pages/Home";
+import CreateIm from "./pages/Home";
+import { setLocale } from "./i18n";
 
 const rootId: string = "__im_div__";
 const windowAny = window as any;
@@ -14,6 +15,13 @@ const init = () => {
 
 init();
 
-windowAny.__RunApp__ = (props: any = {}) => {
-  RunApp({ ...props, rootId });
+const render = (props: any) => {
+  const { locale, ...restProps } = props;
+  // 设置语言
+  setLocale(locale);
+
+  // 创建IM
+  CreateIm({ ...restProps, rootId});
 };
+
+windowAny.__RunApp__ = render;

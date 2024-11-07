@@ -101,8 +101,14 @@ const SideBar: React.FC<any> = (props: any) => {
   const [problem, setProblem] = useState([]);
 
   useEffect(() => {
-    if (getQuestion && typeof getQuestion === "function") {
-      getQuestion().then((res: any) => {
+    if (!getQuestion || typeof getQuestion !== "function") {
+      return;
+    }
+
+    const promise = getQuestion();
+
+    if (promise && promise.then) {
+      promise.then((res: any) => {
         const { success = true, data = [] } = res || {};
 
         if (!success) {
