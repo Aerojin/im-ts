@@ -319,7 +319,7 @@ export default class WKApp extends ProviderListener {
 
   // 登录
   login() {
-    if (this.isLogined() && false) {
+    if (this.isLogined()) {
       console.log("--已经登录，加载登录信息--");
       WKApp.loginInfo.load(); // 加载登录信息
       this.loadAwakenTheGroup();
