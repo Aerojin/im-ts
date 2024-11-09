@@ -13,7 +13,6 @@ const Chat: React.FC<any> = (props: any) => {
   const { onClose, companyInfo = {}, getQuestion } = props;
   const context = useRef<ConversationContext | undefined>(undefined);
 
-  console.log(888)
   const onContext = useCallback(
     (ctx: ConversationContext) => {
       context.current = ctx;

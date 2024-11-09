@@ -59,7 +59,6 @@ function App(props: any = {}) {
       >
         <WKBase
           onContext={(ctx) => {
-            console.log("goto main----111>", ctx);
             WKApp.shared.baseContext = ctx;
           }}
         >

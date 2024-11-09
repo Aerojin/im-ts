@@ -1,8 +1,6 @@
 import * as jsrsasign  from 'jsrsasign';
 
 const { KJUR, KEYUTIL, RSAKey, hextob64, b64utohex  } = jsrsasign;
-console.log(11, KJUR, KEYUTIL, RSAKey, hextob64, b64utohex)
-
 
 const key = KEYUTIL.generateKeypair('RSA', 2048)
 

@@ -296,7 +296,7 @@ export default class WKApp extends ProviderListener {
   }
 
   startMain() {
-     this.connectIM();
+    this.connectIM();
   }
 
   connectIM() {
@@ -336,37 +336,42 @@ export default class WKApp extends ProviderListener {
     const password: string = WKApp.config.userInfo.password;
     // WKApp.dataSource.commonDataSource.requestLoginForJwtWithUsernameAndPwd('',  '');
 
-    WKApp.dataSource.commonDataSource
-      .requestLoginForJwtWithUsernameAndPwd(username, password)
-      .then((data: any) => {
-        console.log("---登录成功---", data);
-        const loginInfo = WKApp.loginInfo;
+    _this.loadAwakenTheGroup().then(() => {
+      WKApp.dataSource.commonDataSource
+        .requestLoginForJwtWithUsernameAndPwd(username, password)
+        .then((data: any) => {
+          console.log("---登录成功---", data);
+          const loginInfo = WKApp.loginInfo;
 
-        loginInfo.appID = data.app_id;
-        loginInfo.uid = data.uid;
-        loginInfo.shortNo = data.short_no;
-        loginInfo.token = data.token;
-        loginInfo.name = data.name;
-        loginInfo.sex = data.sex;
-        loginInfo.save();
+          loginInfo.appID = data.app_id;
+          loginInfo.uid = data.uid;
+          loginInfo.shortNo = data.short_no;
+          loginInfo.token = data.token;
+          loginInfo.name = data.name;
+          loginInfo.sex = data.sex;
+          loginInfo.save();
 
-        WKApp.loginInfo.load();
+          WKApp.loginInfo.load();
+          _this.startMain();
 
-        _this.loadAwakenTheGroup();
-      });
+          // _this.loadAwakenTheGroup();
+        });
+    });
   }
 
   loadAwakenTheGroup() {
-    const _this = this;
+    // const _this = this;
 
     // 获取群ID
-    WKApp.dataSource.commonDataSource
+    return WKApp.dataSource.commonDataSource
       .requestAwakenTheGroup()
       .then((res: any) => {
+        console.log("--requestAwakenTheGroup--", res);
         const { group_id } = res || {};
         WKApp.config.channel.channelID = group_id;
         WKApp.config.channel.channelType = 2;
-        _this.startMain();
+        // _this.startMain();
+        return res;
       });
   }
 

@@ -20,6 +20,8 @@ const render = (props: any) => {
   // 设置语言
   setLocale(locale);
 
+  console.log('---------------runApp---------------', props);
+
   // 创建IM
   CreateIm({ ...restProps, rootId});
 };
