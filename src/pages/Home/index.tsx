@@ -8,7 +8,7 @@ import DataSourceModule from "../../Module/DataSourceModule";
 import customTheme from "./theme";
 
 // let append = false;
-const defaultApi = "http://106.15.250.63:8090/v1/";
+const defaultApi = "http://106.15.250.63:443/v1/";
 
 const CreateIm = (props: any = {}) => {
   const {

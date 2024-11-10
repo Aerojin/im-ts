@@ -229,13 +229,17 @@ export default class WKApp extends ProviderListener {
     WKSDK.shared().config.provider.connectAddrCallback = async (
       callback: ConnectAddrCallback
     ) => {
+      console.log(99922, this.wsaddrs);
       if (!this.wsaddrs || this.wsaddrs.length == 0) {
         this.wsaddrs = await WKApp.dataSource.commonDataSource.imConnectAddrs();
+
+        console.log(9991, this.wsaddrs);
       }
 
       if (this.wsaddrs.length > 0) {
         console.log("connectAddrs--->", this.wsaddrs);
         this.addrUsed = true;
+        // callback('wss://106.15.250.63:5210')
         callback(this.wsaddrs[0]);
       }
     };
@@ -355,6 +359,8 @@ export default class WKApp extends ProviderListener {
           _this.startMain();
 
           // _this.loadAwakenTheGroup();
+        }).catch((err) => {
+          console.log("---登录失败 ---", err);
         });
     });
   }

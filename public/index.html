@@ -55,13 +55,13 @@
 
       setTimeout(() => {
         if (window.__RunApp__) {
-          fetch('http://106.15.250.63:8090/v1/user/getJwtToken?username=hellojwt4').then((res) => {
+          fetch('https://106.15.250.63:443/v1/user/getJwtToken?username=hellojwt4').then((res) => {
             return res.json();
           }).then((res) => {
             const { jwtToken, username } = res || {};
             window.__RunApp__({
               locale: 'cn',
-              api: 'http://106.15.250.63:8090/v1/',
+              api: 'https://106.15.250.63:443/v1/',
               username: username,
               jwtToken: jwtToken,
               companyInfo: {
