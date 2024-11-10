@@ -236,8 +236,8 @@ export default class WKApp extends ProviderListener {
       if (this.wsaddrs.length > 0) {
         console.log("connectAddrs--->", this.wsaddrs);
         this.addrUsed = true;
-        callback("wss://106.15.250.63:5210");
-        // callback(this.wsaddrs[0]);
+        // callback("wss://106.15.250.63:5210");
+        callback(this.wsaddrs[0]);
       }
     };
 
