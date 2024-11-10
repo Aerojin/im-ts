@@ -229,18 +229,15 @@ export default class WKApp extends ProviderListener {
     WKSDK.shared().config.provider.connectAddrCallback = async (
       callback: ConnectAddrCallback
     ) => {
-      console.log(99922, this.wsaddrs);
-      if (!this.wsaddrs || this.wsaddrs.length == 0) {
+      if (!this.wsaddrs || this.wsaddrs.length === 0) {
         this.wsaddrs = await WKApp.dataSource.commonDataSource.imConnectAddrs();
-
-        console.log(9991, this.wsaddrs);
       }
 
       if (this.wsaddrs.length > 0) {
         console.log("connectAddrs--->", this.wsaddrs);
         this.addrUsed = true;
-        // callback('wss://106.15.250.63:5210')
-        callback(this.wsaddrs[0]);
+        callback("wss://106.15.250.63:5210");
+        // callback(this.wsaddrs[0]);
       }
     };
 
@@ -323,14 +320,17 @@ export default class WKApp extends ProviderListener {
 
   // 登录
   login() {
+    const _this = this;
+
     if (this.isLogined()) {
-      console.log("--已经登录，加载登录信息--");
+      console.log("--已经登录，加载登录信息--", WKApp.loginInfo);
       WKApp.loginInfo.load(); // 加载登录信息
-      this.loadAwakenTheGroup();
+      this.loadAwakenTheGroup().then(() => {
+        _this.startMain();
+      });
       return;
     }
 
-    const _this = this;
     // const username: string = "008615900000002";
     // const username: string = "0086" + "13306509966";
     // const password: string = "12345678";
@@ -359,7 +359,8 @@ export default class WKApp extends ProviderListener {
           _this.startMain();
 
           // _this.loadAwakenTheGroup();
-        }).catch((err) => {
+        })
+        .catch((err) => {
           console.log("---登录失败 ---", err);
         });
     });
