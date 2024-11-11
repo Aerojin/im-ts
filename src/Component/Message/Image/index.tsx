@@ -15,8 +15,9 @@ const getImageURL = (path: string, opts?: { width: number, height: number }): st
             return path
         }
     }
-    const baseURl = 'https://api.botgate.cn/v1/';
-    return `${baseURl}${path}`
+    // const baseURl = 'https://api.botgate.cn/v1/';
+    const baseURL = 'https://106.15.250.63/v1/';
+    return `${baseURL}${path}`
 }
 
 
