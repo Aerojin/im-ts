@@ -26,6 +26,7 @@
     color: #1677ff;
     max-height: 450px;
     overflow-y: auto;
+    padding-bottom: 50px;
 
     li {
       margin: 0px;
@@ -45,6 +46,10 @@
 
 :global(.ant-collapse-content-box) {
   padding-block: 0px !important;
+}
+
+:global(.ant-collapse-header) {
+  padding: 5px 12px !important;
 }
 
 .company-info {

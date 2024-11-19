@@ -71,14 +71,75 @@
                 uri: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
               },
               getQuestion: () => {
-                return fetch(api).then((res) => {
-                  return res.json();
-                }).then((res) => {
-                  const { context } = res || {};
-                  const { configVOList = [] } = context || {};
-
-                  return { success: true, data: configVOList };
+                return Promise.resolve({
+                  success: true,
+                  data: [
+                    {
+                      "extendMap": {},
+                      "id": 4,
+                      "configNum": "8940919960",
+                      "questionCn": "如何注册采购账号？",
+                      "answerCn": "尊敬的用户，您可以在我们网站首页点击 “注册” 按钮。然后按照提示填写企业相关信息，包括企业名称（请用哈萨克语或俄语准确填写）、企业地址（哈萨克斯坦境内地址）、联系电话、邮箱等，设置登录密码后即可完成注册。",
+                      "questionEn": "How to register a purchasing account?",
+                      "answerEn": "Dear user, you can click the \"Register\" button on the homepage of our website. Then follow the prompts to fill in the company's relevant information, including company name (please fill in accurately in Kazakh or Russian), company address (address in Kazakhstan), contact number, email address, etc., and set the login password to complete the registration.",
+                      "questionRu": "Как зарегистрировать учетную запись для совершения покупок?",
+                      "answerRu": "Уважаемый пользователь, вы можете нажать кнопку \"Зарегистрироваться\" на главной странице нашего веб-сайта. Затем следуйте инструкциям, чтобы ввести соответствующую информацию о компании, включая название компании (пожалуйста, точно укажите на казахском или русском языках), адрес компании (адрес в Казахстане), контактный номер, адрес электронной почты и т.д., и установите пароль для входа в систему для завершения регистрации."
+                    },
+                    {
+                      "extendMap": {},
+                      "id": 5,
+                      "configNum": "8941328840",
+                      "questionCn": "注册时收不到验证码怎么办？",
+                      "answerCn": "首先，请检查您填写的邮箱或手机号码是否正确。如果信息无误，可能是网络延迟等问题。您可以尝试重新获取验证码，或者检查邮箱的垃圾邮件文件夹。若问题仍然存在，请联系我们的客服，我们会协助您解决。",
+                      "questionEn": "What should I do if I don’t receive the verification code when registering?",
+                      "answerEn": "First, please check if the email address or mobile phone number you entered is correct. If the information is correct, there may be problems such as network delay. You can try to get the verification code again or check the spam folder of your mailbox. If the problem persists, please contact our customer service and we will help you solve it.",
+                      "questionRu": "Что мне делать, если я не получу проверочный код при регистрации?",
+                      "answerRu": "Сначала, пожалуйста, проверьте правильность введенных вами адреса электронной почты или номера мобильного телефона. Если информация верна, могут возникнуть проблемы, такие как задержка подключения к сети. Вы можете попробовать еще раз получить проверочный код или проверить папку со спамом в вашем почтовом ящике. Если проблема не устранена, пожалуйста, свяжитесь с нашей службой поддержки клиентов, и мы поможем вам ее решить."
+                    },
+                    {
+                      "extendMap": {},
+                      "id": 6,
+                      "configNum": "8941605231",
+                      "questionCn": "忘记注册账号密码了，如何重置？",
+                      "answerCn": "在登录页面点击 “忘记密码”，然后输入您注册时使用的邮箱，我们会发送重置密码的链接或验证码到您的邮箱，按照提示操作即可重新设置密码。",
+                      "questionEn": "I forgot my registration account password. How can I reset it?",
+                      "answerEn": "Click \"Forgot Password\" on the login page, and then enter the email address you used when registering. We will send a password reset link or verification code to your email address. Follow the prompts to reset your password.",
+                      "questionRu": "Я забыл пароль от своей учетной записи при регистрации. Как я могу его сбросить?",
+                      "answerRu": "Нажмите \"Забыли пароль\" на странице входа в систему, а затем введите адрес электронной почты, который вы использовали при регистрации. Мы вышлем ссылку для сброса пароля или проверочный код на ваш адрес электронной почты. Следуйте инструкциям, чтобы сбросить пароль."
+                    },
+                    {
+                      "extendMap": {},
+                      "id": 7,
+                      "configNum": "8942122346",
+                      "questionCn": "如何创建新订单？",
+                      "answerCn": "登录账号后，在采购系统页面选择您需要的商品（这里的商品或服务是指与企业采购流程相关的内容，如办公用品采购、生产资料采购等），将其加入购物车，然后在购物车中确认商品信息和数量无误后，点击 “创建订单”，填写订单相关信息，如收货地址（哈萨克斯坦境内企业地址）、联系人、联系电话等。",
+                      "questionEn": "How do I create a new order?",
+                      "answerEn": "After logging in to your account, select the goods you need on the procurement system page , add them to the shopping cart, and then confirm the product information and quantity in the shopping cart. After that, click \"Create Order\" and fill in the order-related information, such as the delivery address , contact person, contact number, etc.",
+                      "questionRu": "Как мне создать новый заказ?",
+                      "answerRu": "После входа в свою учетную запись выберите нужные вам товары на странице системы закупок, добавьте их в корзину покупок, а затем подтвердите информацию о товаре и его количестве в корзине покупок. После этого нажмите \"Создать заказ\" и заполните информацию, связанную с заказом, такую как адрес доставки, контактное лицо, контактный номер и т.д."
+                    },
+                    {
+                      "extendMap": {},
+                      "id": 8,
+                      "configNum": "8942318500",
+                      "questionCn": "如何查看我采购的订单列表？",
+                      "answerCn": "登录企业账号后，点击 “采购订单”，这里会显示您企业所有的订单信息，包括订单编号、订单状态（已下单、已支付、已发货、已收货等）、订单创建时间等，您可以点击具体订单查看详细内容。",
+                      "questionEn": "How can I view my order list?",
+                      "answerEn": "After logging into your corporate account, click \"Purchase Order\". All order information of your company will be displayed here, including order number, order status (ordered, paid, shipped, received, etc.), order creation time, etc. You can click on a specific order to view the details.",
+                      "questionRu": "Как я могу просмотреть свой список заказов?",
+                      "answerRu": "После входа в свой корпоративный аккаунт нажмите \"Заказать покупку\". Здесь будет отображена вся информация о заказе вашей компании, включая номер заказа, статус заказа (заказан, оплачен, отправлен, получен и т.д.), время создания заказа и т.д. Вы можете нажать на конкретный заказ, чтобы просмотреть подробную информацию."
+                    }
+                  ]
                 });
+
+                // return fetch(api).then((res) => {
+                //   return res.json();
+                // }).then((res) => {
+                //   const { context } = res || {};
+                //   const { configVOList = [] } = context || {};
+
+                //   return { success: true, data: configVOList };
+                // });
               },
               unmounted: () => {
                 console.log('==unmounted==');
