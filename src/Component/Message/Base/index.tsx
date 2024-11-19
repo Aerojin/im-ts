@@ -177,12 +177,17 @@ export default class MessageBase extends Component<MessageBaseProps, any> {
 
   needAvatar() {
     const { message } = this.props;
+    
+    console.log('--------needAvatar1-------', this.props);
+
     if (message.send) {
       return false;
     }
     const channelInfo = WKSDK.shared().channelManager.getChannelInfo(
       new Channel(message.fromUID, ChannelTypePerson)
     );
+
+    console.log('--------needAvatar2-------', channelInfo, BubblePosition);
     return (
       (message.bubblePosition === BubblePosition.last ||
         message.bubblePosition === BubblePosition.single) &&
