@@ -20,10 +20,10 @@ import { EndpointManager, ModuleManager, IModule, IUser } from "./Module";
 import { WKBaseContext } from "../Component/WKBase";
 // import { generateToken } from "../Utils/jwt";
 
-const DEFAULT_AVATAR =
-  "https://mall-deltrix-bucket.s3.ap-east-1.amazonaws.com/mall-deltrix-bucket/71e0cb31403edbd655a8958d17aead52.jpg";
-const DEFAULT_GROUP =
-  "https://mall-deltrix-bucket.s3.ap-east-1.amazonaws.com/mall-deltrix-bucket/69322dd5b92dfdbff3f5d5688cec3efb.jpg";
+const HOST = "https://mall-deltrix-bucket.s3.ap-east-1.amazonaws.com";
+const DEFAULT_AVATAR = `${HOST}/mall-deltrix-bucket/71e0cb31403edbd655a8958d17aead52.jpg`;
+const DEFAULT_GROUP = `${HOST}/mall-deltrix-bucket/69322dd5b92dfdbff3f5d5688cec3efb.jpg`;
+const DEFAULT_SYSTEM = `${HOST}/mall-deltrix-bucket/c2a7aa6142a044f37a9b36b00b61e8c9.jpg`;
 export class WKConfig {
   appName: string = "唐僧叨叨";
   appVersion: string = "0.0.0"; // app版本
@@ -401,8 +401,14 @@ export default class WKApp extends ProviderListener {
     if (!channel) {
       return "";
     }
+
+    // 系统账号，单独处理头像
+    if (channel.channelID === "u_10000") {
+      return DEFAULT_SYSTEM;
+    }
     // let avatarTag = this.getChannelAvatarTag(channel);
     const channelInfo = WKSDK.shared().channelManager.getChannelInfo(channel);
+
     if (channelInfo && channelInfo.logo && channelInfo.logo !== "") {
       // let logo = channelInfo.logo;
       // if (logo.indexOf("?") != -1) {
