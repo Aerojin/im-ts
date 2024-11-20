@@ -37,8 +37,7 @@ export default class DataSourceModule implements IModule {
     this.setMessageReadedCallback(); // 消息已读未读
     this.setMessageUploadTaskCallback(); // 消息上传任务
     this.setSyncMessageExtraCallback(); // 消息扩展
-
-    // this.setChannelInfoCallback() // 频道信息
+    this.setChannelInfoCallback() // 频道信息
     // this.setSyncConversationExtrasCallback() // 最近会话扩展
     // this.setSyncRemindersCallback() // 同步提醒
     // this.setReminderDoneCallback() // 提醒项完成
@@ -254,7 +253,6 @@ export default class DataSourceModule implements IModule {
       let resp: any;
       let conversations = new Array<Conversation>();
       resp = await WKApp.apiClient.post("conversation/sync", { msg_count: 1 });
-      console.log(9991, resp);
       if (resp) {
         resp.conversations.forEach((conversationMap: any) => {
           let model = Convert.toConversation(conversationMap);

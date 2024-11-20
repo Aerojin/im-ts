@@ -1,3 +1,4 @@
+import React from "react";
 import {
   WKSDK,
   Channel,
@@ -11,7 +12,6 @@ import { Component, CSSProperties, HTMLProps } from "react";
 import "./index.css";
 import { BubblePosition, MessageWrap } from "../../../Service/Model";
 import ConversationContext from "../../Conversation/context";
-import React from "react";
 import {
   MessageContentTypeConst,
   MessageReasonCode,
@@ -20,8 +20,10 @@ import { IConversationProvider } from "../../../Service/DataSource/DataProvider"
 import WKApp from "../../../Service/WkApp";
 // import ClockLoader from "react-spinners/ClockLoader";
 import Checkbox from "../../Checkbox";
-import { getI18nText } from '../../../i18n';
+import { getI18nText } from "../../../i18n";
 import classNames from "classnames";
+
+const DEFAULT_AVATAR = 'https://mall-deltrix-bucket.s3.ap-east-1.amazonaws.com/mall-deltrix-bucket/71e0cb31403edbd655a8958d17aead52.jpg';
 
 interface MessageBaseProps extends HTMLProps<any> {
   message: MessageWrap;
@@ -177,8 +179,6 @@ export default class MessageBase extends Component<MessageBaseProps, any> {
 
   needAvatar() {
     const { message } = this.props;
-    
-    console.log('--------needAvatar1-------', this.props);
 
     if (message.send) {
       return false;
@@ -187,7 +187,6 @@ export default class MessageBase extends Component<MessageBaseProps, any> {
       new Channel(message.fromUID, ChannelTypePerson)
     );
 
-    console.log('--------needAvatar2-------', channelInfo, BubblePosition);
     return (
       (message.bubblePosition === BubblePosition.last ||
         message.bubblePosition === BubblePosition.single) &&
@@ -199,13 +198,13 @@ export default class MessageBase extends Component<MessageBaseProps, any> {
     const { message } = this.props;
     switch (message.reasonCode) {
       case MessageReasonCode.reasonSubscriberNotExist:
-        return getI18nText('remove_from_the_group');
+        return getI18nText("remove_from_the_group");
       case MessageReasonCode.reasonNotAllowSend:
       case MessageReasonCode.reasonNotInWhitelist:
       case MessageReasonCode.reasonInBlacklist:
-        return getI18nText('everyone_is_silent');
+        return getI18nText("everyone_is_silent");
       case MessageReasonCode.reasonSystemError:
-        return getI18nText('system_error');
+        return getI18nText("system_error");
     }
   }
 
@@ -276,7 +275,8 @@ export default class MessageBase extends Component<MessageBaseProps, any> {
               >
                 <img
                   alt=""
-                  src={WKApp.shared.avatarChannel(channelInfo?.channel!)}
+                  src={DEFAULT_AVATAR}
+                  // src={WKApp.shared.avatarChannel(channelInfo?.channel!)}
                 />
               </div>
             )}

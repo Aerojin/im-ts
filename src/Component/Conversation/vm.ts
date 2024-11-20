@@ -329,17 +329,18 @@ export default class ConversationVM extends ProviderListener {
     //     }
     // }, {})
 
-    // if (this.channel.channelType === ChannelTypeGroup) {
-    //     this.reloadSubscribers()
-    //     WKSDK.shared().channelManager.addSubscriberChangeListener((channel: Channel) => {
-    //         if (!this.channel.isEqual(channel)) {
-    //             return
-    //         }
-    //         this.reloadSubscribers()
-    //     })
-    //     WKSDK.shared().channelManager.syncSubscribes(this.channel)
-
-    // }
+    if (this.channel.channelType === ChannelTypeGroup) {
+      this.reloadSubscribers();
+      WKSDK.shared().channelManager.addSubscriberChangeListener(
+        (channel: Channel) => {
+          if (!this.channel.isEqual(channel)) {
+            return;
+          }
+          this.reloadSubscribers();
+        }
+      );
+      WKSDK.shared().channelManager.syncSubscribes(this.channel);
+    }
 
     if (this.channel.channelType === ChannelTypeGroup) {
       // 加载频道信息

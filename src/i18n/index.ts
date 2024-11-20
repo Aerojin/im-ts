@@ -1,6 +1,6 @@
 import zh from "./zh";
 import ru from "./ru";
-import en from "./ru";
+import en from "./en";
 
 const cache: any = { locale: "" };
 const KEY = "__deltrix__locale__";
