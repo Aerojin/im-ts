@@ -23,7 +23,7 @@ import Checkbox from "../../Checkbox";
 import { getI18nText } from "../../../i18n";
 import classNames from "classnames";
 
-const DEFAULT_AVATAR = 'https://mall-deltrix-bucket.s3.ap-east-1.amazonaws.com/mall-deltrix-bucket/71e0cb31403edbd655a8958d17aead52.jpg';
+// const DEFAULT_AVATAR = 'https://mall-deltrix-bucket.s3.ap-east-1.amazonaws.com/mall-deltrix-bucket/71e0cb31403edbd655a8958d17aead52.jpg';
 
 interface MessageBaseProps extends HTMLProps<any> {
   message: MessageWrap;
@@ -275,8 +275,7 @@ export default class MessageBase extends Component<MessageBaseProps, any> {
               >
                 <img
                   alt=""
-                  src={DEFAULT_AVATAR}
-                  // src={WKApp.shared.avatarChannel(channelInfo?.channel!)}
+                  src={WKApp.shared.avatarChannel(channelInfo?.channel!)}
                 />
               </div>
             )}

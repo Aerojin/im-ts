@@ -20,6 +20,10 @@ import { EndpointManager, ModuleManager, IModule, IUser } from "./Module";
 import { WKBaseContext } from "../Component/WKBase";
 // import { generateToken } from "../Utils/jwt";
 
+const DEFAULT_AVATAR =
+  "https://mall-deltrix-bucket.s3.ap-east-1.amazonaws.com/mall-deltrix-bucket/71e0cb31403edbd655a8958d17aead52.jpg";
+const DEFAULT_GROUP =
+  "https://mall-deltrix-bucket.s3.ap-east-1.amazonaws.com/mall-deltrix-bucket/69322dd5b92dfdbff3f5d5688cec3efb.jpg";
 export class WKConfig {
   appName: string = "唐僧叨叨";
   appVersion: string = "0.0.0"; // app版本
@@ -397,24 +401,28 @@ export default class WKApp extends ProviderListener {
     if (!channel) {
       return "";
     }
-    let avatarTag = this.getChannelAvatarTag(channel);
+    // let avatarTag = this.getChannelAvatarTag(channel);
     const channelInfo = WKSDK.shared().channelManager.getChannelInfo(channel);
     if (channelInfo && channelInfo.logo && channelInfo.logo !== "") {
-      let logo = channelInfo.logo;
-      if (logo.indexOf("?") != -1) {
-        logo += "&v=" + avatarTag;
-      } else {
-        logo += "?v=" + avatarTag;
-      }
-      return WKApp.dataSource.commonDataSource.getImageURL(logo);
+      // let logo = channelInfo.logo;
+      // if (logo.indexOf("?") != -1) {
+      //   logo += "&v=" + avatarTag;
+      // } else {
+      //   logo += "?v=" + avatarTag;
+      // }
+      return DEFAULT_AVATAR;
+      // return WKApp.dataSource.commonDataSource.getImageURL(logo);
     }
-    const baseURl = WKApp.apiClient.config.apiURL;
+    // const baseURl = WKApp.apiClient.config.apiURL;
     if (channel.channelType === ChannelTypePerson) {
-      return `${baseURl}users/${channel.channelID}/avatar?v=${avatarTag}`;
-    } else if (channel.channelType == ChannelTypeGroup) {
-      return `${baseURl}groups/${channel.channelID}/avatar?v=${avatarTag}`;
+      return DEFAULT_AVATAR;
+      // return `${baseURl}users/${channel.channelID}/avatar?v=${avatarTag}`;
+    } else if (channel.channelType === ChannelTypeGroup) {
+      return DEFAULT_GROUP;
+      // return `${baseURl}groups/${channel.channelID}/avatar?v=${avatarTag}`;
     }
-    return "";
+
+    return DEFAULT_AVATAR;
   }
 
   avatarUser(uid: string) {
