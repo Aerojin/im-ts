@@ -16,6 +16,7 @@ import {
   ICommonDataSource,
 } from "./DataSource";
 import { ConversationProvider } from "./Conversation";
+import language from "../../i18n/ru";
 
 export class ChannelDataSource implements IChannelDataSource {
   private WKApp: any = {}; // apiClient
@@ -102,33 +103,39 @@ export class ChannelDataSource implements IChannelDataSource {
     });
   }
 
-  async subscribers(channel: Channel,req:{
-    keyword?:string, // 搜索关键字
-    limit?:number, // 每页数量
-    page?:number, // 页码
-}): Promise<Subscriber[]> {
-    const resp = await this.WKApp.apiClient.get(`groups/${channel.channelID}/members`, {
-       param: req
-    })
+  async subscribers(
+    channel: Channel,
+    req: {
+      keyword?: string; // 搜索关键字
+      limit?: number; // 每页数量
+      page?: number; // 页码
+    }
+  ): Promise<Subscriber[]> {
+    const resp = await this.WKApp.apiClient.get(
+      `groups/${channel.channelID}/members`,
+      {
+        param: req,
+      }
+    );
     let members = new Array<Subscriber>();
     if (resp) {
-        for (let i = 0; i < resp.length; i++) {
-            let memberMap = resp[i];
-            let member = new Subscriber();
-            member.uid = memberMap.uid;
-            member.name = memberMap.name;
-            member.remark = memberMap.remark;
-            member.role = memberMap.role;
-            member.version = memberMap.version;
-            member.isDeleted = memberMap.is_deleted;
-            member.status = memberMap.status;
-            member.orgData = memberMap
-            member.avatar = this.WKApp.shared.avatarUser(member.uid)
-            members.push(member);
-        }
+      for (let i = 0; i < resp.length; i++) {
+        let memberMap = resp[i];
+        let member = new Subscriber();
+        member.uid = memberMap.uid;
+        member.name = memberMap.name;
+        member.remark = memberMap.remark;
+        member.role = memberMap.role;
+        member.version = memberMap.version;
+        member.isDeleted = memberMap.is_deleted;
+        member.status = memberMap.status;
+        member.orgData = memberMap;
+        member.avatar = this.WKApp.shared.avatarUser(member.uid);
+        members.push(member);
+      }
     }
-    return members
-}
+    return members;
+  }
 
   updateField(channel: Channel, field: string, value: string): Promise<void> {
     const param: any = {};
@@ -220,21 +227,23 @@ export class CommonDataSource implements ICommonDataSource {
 
   requestLoginForJwtWithUsernameAndPwd(username: string, password: string) {
     return this.WKApp.apiClient
-      .post(`user/loginForJwt`, { username: username, password: password, flag: 1 })
+      .post(`user/loginForJwt`, {
+        username: username,
+        password: password,
+        flag: 1,
+      })
       .then((result: any) => {
         return result;
       });
   }
 
-  requestAwakenTheGroup() {
+  requestAwakenTheGroup(language: string = "zh") {
     return this.WKApp.apiClient
-    .post(`awakenTheGroup`, {})
-    .then((result: any) => {
-      return result;
-    });
+      .post(`awakenTheGroup?language=${language}`, {})
+      .then((result: any) => {
+        return result;
+      });
   }
-
-  
 
   blacklistAdd(uid: string): Promise<void> {
     return this.WKApp.apiClient.post(`user/blacklist/${uid}`);

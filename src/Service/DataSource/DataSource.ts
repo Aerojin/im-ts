@@ -6,6 +6,7 @@ import {
   Message,
 } from "wukongimjssdk";
 import { APIResp } from "../APIClient";
+import language from "../../i18n/ru";
 
 export type ContactsChangeListener = () => void;
 
@@ -119,22 +120,21 @@ export interface ICommonDataSource {
     password: string
   ): Promise<void>;
 
-   /**
+  /**
    *  登录（jwt模式）
    * @param username 用户名
    * @param password 密码
    */
-   requestLoginForJwtWithUsernameAndPwd(
+  requestLoginForJwtWithUsernameAndPwd(
     username: string,
     password: string
   ): Promise<void>;
 
-   /**
+  /**
    *  获取群ID
    */
-   requestAwakenTheGroup(): Promise<void>;
+  requestAwakenTheGroup(language: string): Promise<void>;
 
-  
   /**
    *  联系人同步
    * @param version 版本号

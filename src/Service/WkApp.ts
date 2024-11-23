@@ -18,7 +18,9 @@ import MessageManager from "./MessageManager";
 import { EndpointCommon } from "./EndpointCommon";
 import { EndpointManager, ModuleManager, IModule, IUser } from "./Module";
 import { WKBaseContext } from "../Component/WKBase";
+import { getLocale } from '../i18n';
 // import { generateToken } from "../Utils/jwt";
+import language from '../i18n/ru';
 
 const HOST = "https://mall-deltrix-bucket.s3.ap-east-1.amazonaws.com";
 const DEFAULT_AVATAR = `${HOST}/mall-deltrix-bucket/71e0cb31403edbd655a8958d17aead52.jpg`;
@@ -372,10 +374,11 @@ export default class WKApp extends ProviderListener {
 
   loadAwakenTheGroup() {
     // const _this = this;
+    const language = getLocale();
 
     // 获取群ID
     return WKApp.dataSource.commonDataSource
-      .requestAwakenTheGroup()
+      .requestAwakenTheGroup(language)
       .then((res: any) => {
         console.log("--requestAwakenTheGroup--", res);
         const { group_id } = res || {};

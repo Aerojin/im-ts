@@ -217,8 +217,8 @@ export class CommonDataSource implements ICommonDataSource {
       });
   }
 
-  requestAwakenTheGroup() {
-    return WKApp.apiClient.post(`awakenTheGroup`, {}).then((result: any) => {
+  requestAwakenTheGroup(language:string = 'zh') {
+    return WKApp.apiClient.post(`awakenTheGroup?language=${language}`, {}).then((result: any) => {
       return result;
     });
   }
