@@ -69,6 +69,7 @@ const Chat: React.FC<any> = (props: any) => {
   return (
     <Draggable
       bounds={bounds}
+       handle='#chatHeader'
       onStart={(event, uiData) => onStart(event, uiData)}
     >
       <Flex gap={0} className={styles.layout} vertical={false} ref={draggleRef}>

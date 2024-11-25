@@ -5,7 +5,7 @@ import styles from "./index.module.scss";
 
 const Header: React.FC = () => {
   return (
-  <div className={styles.app}>
+  <div className={styles.app} id="chatHeader">
     {getI18nText('service')}
   </div>
   );
