@@ -170,7 +170,7 @@ export default class WKBase
     } = this.state;
     const baseURl = WKApp.apiClient.config.apiURL.replace("v1/", "");
     return (
-      <div className="wk-base" id="chat-wk-base">
+      <div className="wk-base" id="__chat-wk-base__">
         {this.props.children}
         {/* <Modal
           width={400}

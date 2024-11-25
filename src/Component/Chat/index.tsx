@@ -27,7 +27,7 @@ const Chat: React.FC<any> = (props: any) => {
     },
     [context]
   );
- 
+
   const onStart = (_event: any, uiData: any) => {
     const { clientWidth, clientHeight } = window.document.documentElement;
     const targetRect = draggleRef.current?.getBoundingClientRect();
@@ -69,7 +69,7 @@ const Chat: React.FC<any> = (props: any) => {
   return (
     <Draggable
       bounds={bounds}
-       handle='#chatHeader'
+      handle="#__chat_header__"
       onStart={(event, uiData) => onStart(event, uiData)}
     >
       <Flex gap={0} className={styles.layout} vertical={false} ref={draggleRef}>

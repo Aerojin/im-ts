@@ -5,7 +5,7 @@ import { Component, ReactNode } from "react";
 import "./index.css";
 
 const getLeftAndTop = () => {
-  const target = document.getElementById("chat-wk-base") as any;
+  const target = document.getElementById("__chat-wk-base__") as any;
 
   if (target && target.getBoundingClientRect) {
     return target.getBoundingClientRect();
