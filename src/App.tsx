@@ -30,7 +30,7 @@ const callApiWithRetry = (retryLimit = 5, delayMs = 1000) => {
         resolve(res);
       }
 
-      if (!res.success) {
+      if (!res || !res.success) {
         setTimeout(() => {
           retry().then(resolve, reject);
         }, delayMs);
