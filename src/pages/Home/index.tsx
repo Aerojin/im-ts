@@ -48,7 +48,6 @@ const CreateIm = (props: any = {}) => {
   WKApp.shared.registerModule(new DataSourceModule());
   WKApp.shared.startup(); // app启动
 
-
   const root = ReactDOM.createRoot(
     document.getElementById(rootId) as HTMLElement
   );

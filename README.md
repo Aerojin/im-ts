@@ -47,9 +47,9 @@ const events = {};
         button.addEventListener('click', events['open']);
         btnLang.addEventListener('click', events['changeLang']);
 
-        const res = getUnread();
-
-        console.log(888, res.count);
+        getUnread().then((res) => {
+            console.log(888, res.count);
+        });
     },
     style: {                    // 聊天框的位置
         bottom: 150,            // 离页面底部的距离

@@ -7,7 +7,6 @@ import { setLocale } from "./i18n";
 const rootId: string = "__im_div__";
 const windowAny = window as any;
 
-console.log(888)
 const init = () => {
   const el = document.createElement("div");
   el.setAttribute("id", rootId);
@@ -28,3 +27,6 @@ const render = (props: any) => {
 };
 
 windowAny.__RunApp__ = render;
+
+
+
