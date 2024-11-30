@@ -37,7 +37,7 @@ const events = {};
         return Promise.resolve({ success: true, data: [] });
     },
     onReady: (payload = {}) => {             //  im准备回调函数
-        const { onCloseIm, onOpenIm， onChangeLanguage } = payload || {};   //暴露open，close，onChangeLanguage事件
+        const { onCloseIm, onOpenIm， onChangeLanguage, getUnread  } = payload || {};   //暴露open，close，onChangeLanguage事件
 
         events['open'] = onOpenIm
         events['changeLang'] = () => {
@@ -46,6 +46,8 @@ const events = {};
 
         button.addEventListener('click', events['open']);
         btnLang.addEventListener('click', events['changeLang']);
+
+        console.log(888, getUnread());
     },
     style: {                    // 聊天框的位置
         bottom: 150,            // 离页面底部的距离

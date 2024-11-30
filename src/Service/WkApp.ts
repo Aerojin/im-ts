@@ -18,9 +18,9 @@ import MessageManager from "./MessageManager";
 import { EndpointCommon } from "./EndpointCommon";
 import { EndpointManager, ModuleManager, IModule, IUser } from "./Module";
 import { WKBaseContext } from "../Component/WKBase";
-import { getLocale } from '../i18n';
+import { getLocale } from "../i18n";
 // import { generateToken } from "../Utils/jwt";
-import language from '../i18n/ru';
+import language from "../i18n/ru";
 
 const HOST = "https://mall-deltrix-bucket.s3.ap-east-1.amazonaws.com";
 const DEFAULT_AVATAR = `${HOST}/mall-deltrix-bucket/71e0cb31403edbd655a8958d17aead52.jpg`;
@@ -319,6 +319,10 @@ export default class WKApp extends ProviderListener {
     ModuleManager.shared.register(module);
   }
 
+  getModule(id: string) {
+    return ModuleManager.shared.get(id);
+  }
+
   restContent(content: JSX.Element) {
     this.content = content;
     this.notifyListener();
@@ -450,6 +454,17 @@ export default class WKApp extends ProviderListener {
     }
     return tag;
   }
+
+  setUnRead = () => {
+    const channel = WKApp.shared.getChannel();
+
+    return WKApp.apiClient.post("conversations/setUnread", {
+      uid: WKApp.loginInfo.uid,
+      unread: 18,
+      channel_id: channel.channelID,
+      channel_type: channel.channelType,
+    });
+  };
 
   public addMessageDeleteListener(listener: MessageDeleteListener) {
     this.messageDeleteListeners.push(listener);

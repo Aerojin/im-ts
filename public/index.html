@@ -55,7 +55,7 @@
 
       setTimeout(() => {
         if (window.__RunApp__) {
-          fetch('https://106.15.250.63:443/v1/user/getJwtToken?username=hellojwt4').then((res) => {
+          fetch('https://106.15.250.63:443/v1/user/getJwtToken?username=wangyan@wanmi.com').then((res) => {
             return res.json();
           }).then((res) => {
             const { jwtToken, username } = res || {};

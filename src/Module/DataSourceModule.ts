@@ -19,8 +19,11 @@ import { ChannelDataSource, CommonDataSource } from "./DataSource";
 import { GroupRole } from "../Utils/Constant";
 import { Convert } from "../Utils/convert";
 import { MediaMessageUploadTask } from "./task";
+import { connect } from "tls";
 
 export default class DataSourceModule implements IModule {
+  conversations: any[] = [];
+
   id(): string {
     return "DataSource";
   }
@@ -37,7 +40,7 @@ export default class DataSourceModule implements IModule {
     this.setMessageReadedCallback(); // 消息已读未读
     this.setMessageUploadTaskCallback(); // 消息上传任务
     this.setSyncMessageExtraCallback(); // 消息扩展
-    this.setChannelInfoCallback() // 频道信息
+    this.setChannelInfoCallback(); // 频道信息
     // this.setSyncConversationExtrasCallback() // 最近会话扩展
     // this.setSyncRemindersCallback() // 同步提醒
     // this.setReminderDoneCallback() // 提醒项完成
@@ -258,6 +261,7 @@ export default class DataSourceModule implements IModule {
           let model = Convert.toConversation(conversationMap);
           conversations.push(model);
         });
+
         const users = resp.users;
         if (users && users.length > 0) {
           for (const user of users) {
@@ -275,6 +279,10 @@ export default class DataSourceModule implements IModule {
           }
         }
       }
+      if(conversations && conversations.length > 0) {
+        this.conversations = conversations;
+      }
+      
       return conversations;
     };
   }

@@ -7,6 +7,7 @@ import { setLocale } from "./i18n";
 const rootId: string = "__im_div__";
 const windowAny = window as any;
 
+console.log(888)
 const init = () => {
   const el = document.createElement("div");
   el.setAttribute("id", rootId);
@@ -20,7 +21,7 @@ const render = (props: any) => {
   // 设置语言
   setLocale(locale);
 
-  console.log('---------------runApp---------------', props);
+  console.log('----------runApp---------', props);
 
   // 创建IM
   CreateIm({ ...restProps, rootId});
