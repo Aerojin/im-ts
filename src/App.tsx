@@ -16,7 +16,32 @@ const getUnread = () => {
     return { success: false, msg: "还未初始化，请稍后重试", count: null };
   }
 
-  return { success: true, msg: "还未初始化，请稍后重试", count: unread };;
+  return { success: true, msg: "还未初始化，请稍后重试", count: unread };
+};
+
+const callApiWithRetry = (retryLimit = 5, delayMs = 1000) => {
+  let attempts = 0;
+  const retry = () => {
+    return new Promise((resolve, reject) => {
+      const res = getUnread();
+      attempts += 1;
+
+      if (attempts > retryLimit) {
+        resolve(res);
+      }
+
+      if (!res.success) {
+        setTimeout(() => {
+          retry().then(resolve, reject);
+        }, delayMs);
+        return;
+      }
+
+      resolve(res);
+    });
+  };
+
+  return retry();
 };
 
 function App(props: any = {}) {
@@ -38,7 +63,7 @@ function App(props: any = {}) {
       setTimeout(() => {
         onReady({
           getUnread: () => {
-            return getUnread();
+            return callApiWithRetry(5, 1000);
           },
           onOpenIm: () => {
             setVisible(true);
@@ -56,7 +81,7 @@ function App(props: any = {}) {
             }, 0);
           },
         });
-      }, 1000);
+      }, 0);
     }
 
     return () => {
