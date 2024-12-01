@@ -21,14 +21,12 @@ import { GroupRole } from "../Utils/Constant";
 import { Convert } from "../Utils/convert";
 import { MediaMessageUploadTask } from "./task";
 // import { connect } from "tls";
-import { message } from "antd";
 
 export default class DataSourceModule implements IModule {
   conversations: any[] = [];
   onConversationListener: any = null;
   constructor(props: any) {
     this.onConversationListener = props.onConversationListener;
-    console.log(999911, props);
   }
 
   id(): string {
@@ -310,7 +308,6 @@ export default class DataSourceModule implements IModule {
       if (action === ConversationAction.update) {
         console.log("ConversationAction-----update", conversation);
         const existConversation = this.findConversation(conversation.channel);
-
         // 更新未读消息数量
         existConversation.unread++;
         this.conversations[0] = existConversation;
