@@ -9,6 +9,7 @@ import customTheme from "./theme";
 
 // let append = false;
 const defaultApi = "http://106.15.250.63:443/v1/";
+const noop = (e: any) => e;
 
 const CreateIm = (props: any = {}) => {
   const {
@@ -21,6 +22,7 @@ const CreateIm = (props: any = {}) => {
     onReady,
     unmounted,
     getQuestion,
+    onConversationListener = noop,
     companyInfo = {},
   } = props;
 
@@ -45,7 +47,7 @@ const CreateIm = (props: any = {}) => {
   WKApp.loginInfo.load(); // 加载登录信息
 
   WKApp.shared.registerModule(new BaseModule());
-  WKApp.shared.registerModule(new DataSourceModule());
+  WKApp.shared.registerModule(new DataSourceModule({ onConversationListener }));
   WKApp.shared.startup(); // app启动
 
   const root = ReactDOM.createRoot(

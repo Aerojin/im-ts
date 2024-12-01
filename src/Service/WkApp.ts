@@ -455,12 +455,12 @@ export default class WKApp extends ProviderListener {
     return tag;
   }
 
-  setUnRead = () => {
+  clearUnread = () => {
     const channel = WKApp.shared.getChannel();
 
-    return WKApp.apiClient.post("conversations/setUnread", {
+    return WKApp.apiClient.put("https://imcs.mall.deltrix.com/api/v1/coversation/clearUnread", {
       uid: WKApp.loginInfo.uid,
-      unread: 18,
+      unread: 0,
       channel_id: channel.channelID,
       channel_type: channel.channelType,
     });

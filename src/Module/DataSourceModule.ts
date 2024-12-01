@@ -9,6 +9,7 @@ import {
   WKSDK,
   Message,
   Subscriber,
+  ConversationAction,
   ConversationExtra,
   Reminder,
 } from "wukongimjssdk";
@@ -19,10 +20,16 @@ import { ChannelDataSource, CommonDataSource } from "./DataSource";
 import { GroupRole } from "../Utils/Constant";
 import { Convert } from "../Utils/convert";
 import { MediaMessageUploadTask } from "./task";
-import { connect } from "tls";
+// import { connect } from "tls";
+import { message } from "antd";
 
 export default class DataSourceModule implements IModule {
   conversations: any[] = [];
+  onConversationListener: any = null;
+  constructor(props: any) {
+    this.onConversationListener = props.onConversationListener;
+    console.log(999911, props);
+  }
 
   id(): string {
     return "DataSource";
@@ -41,6 +48,7 @@ export default class DataSourceModule implements IModule {
     this.setMessageUploadTaskCallback(); // 消息上传任务
     this.setSyncMessageExtraCallback(); // 消息扩展
     this.setChannelInfoCallback(); // 频道信息
+    this.setConversationListener(); //最近会话监听
     // this.setSyncConversationExtrasCallback() // 最近会话扩展
     // this.setSyncRemindersCallback() // 同步提醒
     // this.setReminderDoneCallback() // 提醒项完成
@@ -279,11 +287,60 @@ export default class DataSourceModule implements IModule {
           }
         }
       }
-      if(conversations && conversations.length > 0) {
+      if (conversations && conversations.length > 0) {
         this.conversations = conversations;
       }
-      
+
       return conversations;
     };
+  }
+
+  setConversationListener() {
+    const conversationListener = (
+      conversation: Conversation,
+      action: ConversationAction
+    ) => {
+      const channelInfo = WKSDK.shared().channelManager.getChannelInfo(
+        conversation.channel
+      );
+      if (!channelInfo) {
+        WKSDK.shared().channelManager.fetchChannelInfo(conversation.channel);
+      }
+
+      if (action === ConversationAction.update) {
+        console.log("ConversationAction-----update", conversation);
+        const existConversation = this.findConversation(conversation.channel);
+
+        // 更新未读消息数量
+        existConversation.unread++;
+        this.conversations[0] = existConversation;
+
+        if (
+          this.onConversationListener &&
+          typeof this.onConversationListener === "function"
+        ) {
+          this.onConversationListener({
+            success: true,
+            count: existConversation.unread,
+            message: "success",
+          });
+        }
+      }
+    };
+
+    // 监听消息，用于小红点
+    WKSDK.shared().conversationManager.addConversationListener(
+      conversationListener
+    );
+  }
+
+  findConversation(channel: Channel) {
+    if (this.conversations) {
+      for (const conversation of this.conversations) {
+        if (conversation.channel.isEqual(channel)) {
+          return conversation;
+        }
+      }
+    }
   }
 }

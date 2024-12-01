@@ -1,5 +1,6 @@
 export interface IModule {
   conversations?: any[];
+  onConversationListener?: any;
   id(): string;
   init(): void;
 }

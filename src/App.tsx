@@ -16,10 +16,10 @@ const getUnread = () => {
     return { success: false, msg: "还未初始化，请稍后重试", count: null };
   }
 
-  return { success: true, msg: "还未初始化，请稍后重试", count: unread };
+  return { success: true, msg: "success", count: unread };
 };
 
-const callApiWithRetry = (retryLimit = 5, delayMs = 1000) => {
+const callApiWithRetry = (retryLimit = 8, delayMs = 1000) => {
   let attempts = 0;
   const retry = () => {
     return new Promise((resolve, reject) => {
@@ -28,13 +28,14 @@ const callApiWithRetry = (retryLimit = 5, delayMs = 1000) => {
 
       if (attempts > retryLimit) {
         resolve(res);
+        return res;
       }
 
       if (!res || !res.success) {
         setTimeout(() => {
           retry().then(resolve, reject);
         }, delayMs);
-        return;
+        return res;
       }
 
       resolve(res);
@@ -63,16 +64,17 @@ function App(props: any = {}) {
       setTimeout(() => {
         onReady({
           getUnread: () => {
-            return callApiWithRetry(5, 1000);
+            return callApiWithRetry(8, 1000);
           },
           onOpenIm: () => {
             setVisible(true);
             onVisibleChange && onVisibleChange(true);
-            return WKApp.shared.setUnRead();
+            return WKApp.shared.clearUnread();
           },
           onCloseIm: () => {
             setVisible(false);
             onVisibleChange && onVisibleChange(false);
+            return WKApp.shared.clearUnread();
           },
           onChangeLanguage: (locale: string) => {
             setLocale(locale || "cn");
@@ -81,7 +83,7 @@ function App(props: any = {}) {
             }, 0);
           },
         });
-      }, 0);
+      }, 2000);
     }
 
     return () => {

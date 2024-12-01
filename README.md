@@ -36,6 +36,9 @@ const events = {};
     getQuestion: () => {                    // 获取对话框右边问答列表
         return Promise.resolve({ success: true, data: [] });
     },
+    onConversationListener: (res) => {          // 监听消息回调，用于小红点逻辑
+        console.log(222, res);
+    },
     onReady: (payload = {}) => {             //  im准备回调函数
         const { onCloseIm, onOpenIm， onChangeLanguage, getUnread  } = payload || {};   //暴露open，close，onChangeLanguage事件
 

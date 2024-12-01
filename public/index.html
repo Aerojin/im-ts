@@ -146,6 +146,9 @@
                 button.removeEventListener('click', events['open']);
                 btnLang.removeEventListener('click', events['changeLang']);
               },
+              onConversationListener: (res) => {
+                console.log(222, res);
+              },
               onReady: (payload = {}) => {
                 const { onCloseIm, onOpenIm, onChangeLanguage } = payload || {};
 
