@@ -27,6 +27,8 @@ export default class DataSourceModule implements IModule {
   onConversationListener: any = null;
   constructor(props: any) {
     this.onConversationListener = props.onConversationListener;
+
+    console.log('---DataSourceModule----init---', props);
   }
 
   id(): string {
